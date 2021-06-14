@@ -4,5 +4,12 @@ FILE(GLOB_RECURSE SC_FILES "*.cpp" "*.h")
 
 add_library(casbin ${SC_FILES})
 
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR})
+
 set_target_properties(casbin PROPERTIES PREFIX "")
 set_target_properties(casbin PROPERTIES SUFFIX ".o")
+
+install(
+    TARGETS casbin
+    DESTINATION lib
+)
