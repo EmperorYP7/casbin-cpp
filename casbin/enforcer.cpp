@@ -424,7 +424,7 @@ void Enforcer :: BuildRoleLinks() {
 }
 
 // BuildIncrementalRoleLinks provides incremental build the role inheritance relations.
-void Enforcer :: BuildIncrementalRoleLinks(policy_op op, const std::string& p_type, const std::vector<std::vector<std::string>>& rules) {
+void Enforcer :: BuildIncrementalRoleLinks(policy_op op, const std::string& p_type, const std::vector<DataList>& rules) {
     return m_model->BuildIncrementalRoleLinks(this->rm, op, "g", p_type, rules);
 }
 

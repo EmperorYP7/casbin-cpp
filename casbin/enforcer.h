@@ -17,15 +17,19 @@
 #ifndef CASBIN_CPP_ENFORCER
 #define CASBIN_CPP_ENFORCER
 
-#include <tuple>
-#include <vector>
 #include "./rbac/role_manager.h"
 #include "./model/function.h"
 #include "./enforcer_interface.h"
 #include "./persist/filtered_adapter.h"
 #include "./log/log_util.h"
+#include "./abac_data.h"
 
 namespace casbin {
+
+// Intrinsic definitions accesible by the client
+typedef std::variant<std::string, std::shared_ptr<casbin::ABACData>> DataVariant;
+typedef std::vector<DataVariant> DataList;
+typedef std::unordered_map<std::string, DataVariant> DataMap;
 
 // Enforcer is the main interface for authorization enforcement and policy management.
 class Enforcer : public IEnforcer {
@@ -152,7 +156,7 @@ class Enforcer : public IEnforcer {
         // BuildRoleLinks manually rebuild the role inheritance relations.
         void BuildRoleLinks();
         // BuildIncrementalRoleLinks provides incremental build the role inheritance relations.
-        void BuildIncrementalRoleLinks(policy_op op, const std::string& p_type, const std::vector<std::vector<std::string>>& rules);
+        void BuildIncrementalRoleLinks(policy_op op, const std::string& p_type, const std::vector<DataList>& rules);
         // Enforce decides whether a "subject" can access a "object" with the operation "action", input parameters are usually: (sub, obj, act).
         bool Enforce(Scope scope);
         // Enforce with a vector param,decides whether a "subject" can access a "object" with the operation "action", input parameters are usually: (sub, obj, act).
@@ -190,7 +194,7 @@ class Enforcer : public IEnforcer {
         bool HasPolicy(const std::vector<std::string>& params);
         bool HasNamedPolicy(const std::string& p_type, const std::vector<std::string>& params);
         bool AddPolicy(const std::vector<std::string>& params);
-        bool  AddPolicies(const std::vector<std::vector<std::string>>& rules);
+        bool AddPolicies(const std::vector<std::vector<std::string>>& rules);
         bool AddNamedPolicy(const std::string& p_type, const std::vector<std::string>& params);
         bool AddNamedPolicies(const std::string& p_type, const std::vector<std::vector<std::string>>& rules);
         bool RemovePolicy(const std::vector<std::string>& params);
