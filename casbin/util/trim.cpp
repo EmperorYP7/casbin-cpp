@@ -25,16 +25,19 @@
 namespace casbin {
 
 std::string& LTrim(std::string& str, const std::string& chars) {
+    CASBIN_VISUAL_PROFILE;
     str.erase(0, str.find_first_not_of(chars));
     return str;
 }
  
 std::string& RTrim(std::string& str, const std::string& chars) {
+    CASBIN_VISUAL_PROFILE;
     str.erase(str.find_last_not_of(chars) + 1);
     return str;
 }
  
 std::string Trim(std::string& str, const std::string& chars) {
+    CASBIN_VISUAL_PROFILE;
     return LTrim(RTrim(str, chars), chars);
 }
 

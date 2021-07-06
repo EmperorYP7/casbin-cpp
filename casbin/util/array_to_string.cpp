@@ -25,6 +25,7 @@
 namespace casbin {
 
 std::string ArrayToString(std::vector<std::string> arr){
+    CASBIN_VISUAL_PROFILE;
     std::string res = arr[0];
     for (int i = 0 ; i < arr.size() ; i++)
         res += ", " + arr[i];

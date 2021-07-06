@@ -9,6 +9,7 @@
 namespace casbin {
 
 ParserException :: ParserException(std::string error_message){
+    CASBIN_VISUAL_PROFILE;
     this->error_message = error_message;
 }
 

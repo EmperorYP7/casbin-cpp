@@ -28,6 +28,7 @@ namespace casbin {
 
 template<typename Base, typename T>
 bool IsInstanceOf(const T*) {
+    CASBIN_VISUAL_PROFILE;
     return std::is_base_of<Base, T>::value;
 }
 

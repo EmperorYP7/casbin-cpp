@@ -28,18 +28,21 @@ namespace casbin {
 
 // GetRolesForUser gets the roles that a user has.
 std::vector<std::string> Enforcer :: GetRolesForUser(const std::string& name, const std::vector<std::string>& domain) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> res = m_model->m["g"].assertion_map["g"]->rm->GetRoles(name, domain);
     return res;
 }
 
 // GetUsersForRole gets the users that has a role.
 std::vector<std::string> Enforcer :: GetUsersForRole(const std::string& name, const std::vector<std::string>& domain) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> res = m_model->m["g"].assertion_map["g"]->rm->GetUsers(name, domain);
     return res;
 }
 
 // HasRoleForUser determines whether a user has a role.
 bool Enforcer :: HasRoleForUser(const std::string& name, const std::string& role) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> domain;
     std::vector<std::string> roles = this->GetRolesForUser(name, domain);
 
@@ -57,6 +60,7 @@ bool Enforcer :: HasRoleForUser(const std::string& name, const std::string& role
 // AddRoleForUser adds a role for a user.
 // Returns false if the user already has the role (aka not affected).
 bool Enforcer :: AddRoleForUser(const std::string& user, const std::string& role) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> params{user, role};
     return this->AddGroupingPolicy(params);
 }
@@ -64,6 +68,7 @@ bool Enforcer :: AddRoleForUser(const std::string& user, const std::string& role
 // AddRolesForUser adds roles for a user.
 // Returns false if the user already has the roles (aka not affected).
 bool Enforcer :: AddRolesForUser(const std::string& user, const std::vector<std::string>& roles) {
+    CASBIN_VISUAL_PROFILE;
     bool f = false;
     for(int i=0;i<roles.size();i++) {
         bool b = this->AddGroupingPolicy({user, roles[i]});
@@ -76,6 +81,7 @@ bool Enforcer :: AddRolesForUser(const std::string& user, const std::vector<std:
 // DeleteRoleForUser deletes a role for a user.
 // Returns false if the user does not have the role (aka not affected).
 bool Enforcer :: DeleteRoleForUser(const std::string& user, const std::string& role) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> params{user, role};
     return this->RemoveGroupingPolicy(params);
 }
@@ -83,6 +89,7 @@ bool Enforcer :: DeleteRoleForUser(const std::string& user, const std::string& r
 // DeleteRolesForUser deletes all roles for a user.
 // Returns false if the user does not have any roles (aka not affected).
 bool Enforcer :: DeleteRolesForUser(const std::string& user) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> field_values{user};
     return this->RemoveFilteredGroupingPolicy(0, field_values);
 }
@@ -90,6 +97,7 @@ bool Enforcer :: DeleteRolesForUser(const std::string& user) {
 // DeleteUser deletes a user.
 // Returns false if the user does not exist (aka not affected).
 bool Enforcer :: DeleteUser(const std::string& user) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> field_values{user};
 
     bool res1 = this->RemoveFilteredGroupingPolicy(0, field_values);
@@ -102,6 +110,7 @@ bool Enforcer :: DeleteUser(const std::string& user) {
 // DeleteRole deletes a role.
 // Returns false if the role does not exist (aka not affected).
 bool Enforcer :: DeleteRole(const std::string& role) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> field_values{role};
 
     bool res1 = this->RemoveFilteredGroupingPolicy(1, field_values);
@@ -114,6 +123,7 @@ bool Enforcer :: DeleteRole(const std::string& role) {
 // DeletePermission deletes a permission.
 // Returns false if the permission does not exist (aka not affected).
 bool Enforcer :: DeletePermission(const std::vector<std::string>& permission) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> field_values{permission};
     return this->RemoveFilteredPolicy(1, field_values);
 }
@@ -121,30 +131,35 @@ bool Enforcer :: DeletePermission(const std::vector<std::string>& permission) {
 // AddPermissionForUser adds a permission for a user or role.
 // Returns false if the user or role already has the permission (aka not affected).
 bool Enforcer :: AddPermissionForUser(const std::string& user, const std::vector<std::string>& permission) {
+    CASBIN_VISUAL_PROFILE;
     return this->AddPolicy(JoinSlice(user, permission));
 }
 
 // DeletePermissionForUser deletes a permission for a user or role.
 // Returns false if the user or role does not have the permission (aka not affected).
 bool Enforcer :: DeletePermissionForUser(const std::string& user, const std::vector<std::string>& permission) {
+    CASBIN_VISUAL_PROFILE;
     return this->RemovePolicy(JoinSlice(user, permission));
 }
 
 // DeletePermissionsForUser deletes permissions for a user or role.
 // Returns false if the user or role does not have any permissions (aka not affected).
 bool Enforcer :: DeletePermissionsForUser(const std::string& user) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> field_values{user};
     return this->RemoveFilteredPolicy(0, field_values);
 }
 
 // GetPermissionsForUser gets permissions for a user or role.
 std::vector<std::vector<std::string>> Enforcer :: GetPermissionsForUser(const std::string& user) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> field_values{user};
     return this->GetFilteredPolicy(0, field_values);
 }
 
 // HasPermissionForUser determines whether a user has a permission.
 bool Enforcer :: HasPermissionForUser(const std::string& user, const std::vector<std::string>& permission) {
+    CASBIN_VISUAL_PROFILE;
     return this->HasPolicy(JoinSlice(user, permission));
 }
 
@@ -157,6 +172,7 @@ bool Enforcer :: HasPermissionForUser(const std::string& user, const std::vector
 // GetRolesForUser("alice") can only get: ["role:admin"].
 // But GetImplicitRolesForUser("alice") will get: ["role:admin", "role:user"].
 std::vector<std::string> Enforcer :: GetImplicitRolesForUser(const std::string& name, const std::vector<std::string>& domain) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> res;
     std::unordered_map<std::string, bool> role_set;
     role_set[name] = true;
@@ -192,6 +208,7 @@ std::vector<std::string> Enforcer :: GetImplicitRolesForUser(const std::string& 
 // GetPermissionsForUser("alice") can only get: [["alice", "data2", "read"]].
 // But GetImplicitPermissionsForUser("alice") will get: [["admin", "data1", "read"], ["alice", "data2", "read"]].
 std::vector<std::vector<std::string>> Enforcer :: GetImplicitPermissionsForUser(const std::string& user, const std::vector<std::string>& domain) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> roles = this->GetImplicitRolesForUser(user, domain);
     roles.insert(roles.begin(), user);
 
@@ -226,6 +243,7 @@ std::vector<std::vector<std::string>> Enforcer :: GetImplicitPermissionsForUser(
 // GetImplicitUsersForPermission("data1", "read") will get: ["alice", "bob"].
 // Note: only users will be returned, roles (2nd arg in "g") will be excluded.
 std::vector<std::string> Enforcer :: GetImplicitUsersForPermission(const std::vector<std::string>& permission) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> p_subjects = this->GetAllSubjects();
     std::vector<std::string> g_inherit = m_model->GetValuesForFieldInPolicyAllTypes("g", 1);
     std::vector<std::string> g_subjects = m_model->GetValuesForFieldInPolicyAllTypes("g", 0);

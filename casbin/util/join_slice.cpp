@@ -25,6 +25,7 @@
 namespace casbin {
 
 std::vector<std::string> JoinSlice(std::string a, std::vector<std::string> slice) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> result{a};
     for (int i = 0 ; i < slice.size() ; i++)
         result.push_back(slice[i]);

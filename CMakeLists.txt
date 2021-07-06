@@ -50,6 +50,7 @@ endif()
 
 option(CASBIN_BUILD_TEST "State whether to build test" ON)
 option(CASBIN_BUILD_BENCHMARK "State whether to build benchmarks" ON)
+option(CASBIN_BUILD_VISUAL_BENCHMARK "State whether to build visual benchmarks" ON)
 
 # Do not output install messages.
 if(NOT DEFINED CMAKE_INSTALL_MESSAGE)

@@ -37,6 +37,7 @@ namespace casbin {
 // KeyMatch determines whether key1 matches the pattern of key2 (similar to RESTful path), key2 can contain a *.
 // For example, "/foo/bar" matches "/foo/*"
 ReturnType KeyMatch(Scope scope) {
+    CASBIN_VISUAL_PROFILE;
     std::string key1 = GetString(scope, 0);
     std::string key2 = GetString(scope, 1);
 
@@ -45,6 +46,7 @@ ReturnType KeyMatch(Scope scope) {
 }
 
 bool KeyMatch(std::string key1, std::string key2) {
+    CASBIN_VISUAL_PROFILE;
     size_t pos = key2.find("*");
 
     if (pos == std::string :: npos)
@@ -59,6 +61,7 @@ bool KeyMatch(std::string key1, std::string key2) {
 // KeyMatch2 determines whether key1 matches the pattern of key2 (similar to RESTful path), key2 can contain a *.
 // For example, "/foo/bar" matches "/foo/*", "/resource1" matches "/:resource"
 ReturnType KeyMatch2(Scope scope) {
+    CASBIN_VISUAL_PROFILE;
     std::string key1 = GetString(scope, 0);
     std::string key2 = GetString(scope, 1);
 
@@ -67,6 +70,7 @@ ReturnType KeyMatch2(Scope scope) {
 }
 
 bool KeyMatch2(std::string key1, std::string key2) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> key1_arr = Split(key1, "/");
     std::vector<std::string> key2_arr = Split(key2, "/");
 
@@ -113,6 +117,7 @@ bool KeyMatch2(std::string key1, std::string key2) {
 // KeyMatch3 determines whether key1 matches the pattern of key2 (similar to RESTful path), key2 can contain a *.
 // For example, "/foo/bar" matches "/foo/*", "/resource1" matches "/{resource}"
 ReturnType KeyMatch3(Scope scope) {
+    CASBIN_VISUAL_PROFILE;
     std::string key1 = GetString(scope, 0);
     std::string key2 = GetString(scope, 1);
 
@@ -121,6 +126,7 @@ ReturnType KeyMatch3(Scope scope) {
 }
 
 bool KeyMatch3(std::string key1, std::string key2) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> key1_arr = Split(key1, "/");
     std::vector<std::string> key2_arr = Split(key2, "/");
 
@@ -167,6 +173,7 @@ bool KeyMatch3(std::string key1, std::string key2) {
 
 // RegexMatch determines whether key1 matches the pattern of key2 in regular expression.
 ReturnType RegexMatch(Scope scope) {
+    CASBIN_VISUAL_PROFILE;
     std::string key1 = GetString(scope, 0);
     std::string key2 = GetString(scope, 1);
 
@@ -175,6 +182,7 @@ ReturnType RegexMatch(Scope scope) {
 }
 
 bool RegexMatch(std::string key1, std::string key2) {
+    CASBIN_VISUAL_PROFILE;
     std::regex regex_s(key2);
     return regex_match(key1, regex_s);
 }
@@ -182,6 +190,7 @@ bool RegexMatch(std::string key1, std::string key2) {
 // IPMatch determines whether IP address ip1 matches the pattern of IP address ip2, ip2 can be an IP address or a CIDR pattern.
 // For example, "192.168.2.123" matches "192.168.2.0/24"
 ReturnType IPMatch(Scope scope) {
+    CASBIN_VISUAL_PROFILE;
     std::string ip1 = GetString(scope, 0);
     std::string ip2 = GetString(scope, 1);
 
@@ -190,6 +199,7 @@ ReturnType IPMatch(Scope scope) {
 }
 
 bool IPMatch(std::string ip1, std::string ip2) {
+    CASBIN_VISUAL_PROFILE;
     IP objIP1 = parseIP(ip1);
     if (objIP1.isLegal == false)
         throw IllegalArgumentException("invalid argument: ip1 in IPMatch() function is not an IP address.");
@@ -208,6 +218,7 @@ bool IPMatch(std::string ip1, std::string ip2) {
 
 // GFunction is the method of the g(_, _) function.
 ReturnType GFunction(Scope scope) {
+    CASBIN_VISUAL_PROFILE;
     RoleManager* rm;
     rm = (RoleManager*)GetPointer(scope, 0);
     std::string name1 = GetString(scope, 1);

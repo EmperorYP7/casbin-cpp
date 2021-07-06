@@ -37,19 +37,24 @@ namespace casbin {
  * @return Pointer to casbin::ABACData entity
  */
 const std::shared_ptr<ABACData> GetData(const ABACData::VariantMap& attribs) {
+    CASBIN_VISUAL_PROFILE;
     return std::make_shared<ABACData>(attribs);
 }
 
 ABACData::ABACData(const VariantMap& attrib)
         : m_attributes(attrib)
-{}
+{
+    CASBIN_VISUAL_PROFILE;
+}
 
 bool ABACData::AddAttribute(const std::string& key, const VariantType& value) {
+    CASBIN_VISUAL_PROFILE;
     m_attributes[key] = value;
     return true;
 }
 
 bool ABACData::AddAttributes(const VariantMap& attribs) {
+    CASBIN_VISUAL_PROFILE;
     for(auto attrib : attribs) {
         m_attributes[attrib.first] = attrib.second;
     }
@@ -57,6 +62,7 @@ bool ABACData::AddAttributes(const VariantMap& attribs) {
 }
 
 bool ABACData::DeleteAttribute(const std::string& key) {
+    CASBIN_VISUAL_PROFILE;
     auto it = m_attributes.find(key);
 
     // If key is not present in the map, indicate deletion failiure
@@ -69,11 +75,13 @@ bool ABACData::DeleteAttribute(const std::string& key) {
 }
 
 bool ABACData::UpdateAttribute(const std::string& key, const VariantType& value) {
+    CASBIN_VISUAL_PROFILE;
     m_attributes[key] = value;
     return true;
 }
 
 const ABACData::VariantMap& ABACData::GetAttributes() {
+    CASBIN_VISUAL_PROFILE;
     return m_attributes;
 }
 

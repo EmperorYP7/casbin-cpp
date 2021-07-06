@@ -28,6 +28,7 @@ namespace casbin {
 
 // SetSubtract returns the elements in `a` that aren't in `b`.
 std::vector<std::string> SetSubtract(std::vector<std::string> a, std::vector<std::string> b) {
+    CASBIN_VISUAL_PROFILE;
     std::unordered_map<std::string, bool> mb;
 
     for (int i = 0 ; i < b.size() ; i++)

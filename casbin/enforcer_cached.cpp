@@ -35,6 +35,7 @@ namespace casbin {
  * Enforcer is the default constructor.
  */
 CachedEnforcer ::CachedEnforcer() {
+    CASBIN_VISUAL_PROFILE;
     this->enableCache = true;
 }
 
@@ -46,6 +47,7 @@ CachedEnforcer ::CachedEnforcer() {
  */
 CachedEnforcer ::CachedEnforcer(const std::string& model_path, const std::string& policy_file)
     : Enforcer(model_path, policy_file) {
+    CASBIN_VISUAL_PROFILE;
     this->enableCache = true;
 }
 
@@ -57,6 +59,7 @@ CachedEnforcer ::CachedEnforcer(const std::string& model_path, const std::string
  */
 CachedEnforcer ::CachedEnforcer(const std::string& model_path, std::shared_ptr<Adapter> adapter)
     : Enforcer(model_path, adapter) {
+    CASBIN_VISUAL_PROFILE;
     this->enableCache = true;
 }
 
@@ -68,6 +71,7 @@ CachedEnforcer ::CachedEnforcer(const std::string& model_path, std::shared_ptr<A
  */
 CachedEnforcer ::CachedEnforcer(std::shared_ptr<Model> m, std::shared_ptr<Adapter> adapter)
     : Enforcer(m, adapter) {
+    CASBIN_VISUAL_PROFILE;
     this->enableCache = true;
 }
 
@@ -78,6 +82,7 @@ CachedEnforcer ::CachedEnforcer(std::shared_ptr<Model> m, std::shared_ptr<Adapte
  */
 CachedEnforcer ::CachedEnforcer(std::shared_ptr<Model> m)
     : Enforcer(m) {
+    CASBIN_VISUAL_PROFILE;
     this->enableCache = true;
 }
 
@@ -88,6 +93,7 @@ CachedEnforcer ::CachedEnforcer(std::shared_ptr<Model> m)
  */
 CachedEnforcer ::CachedEnforcer(const std::string& model_path)
     : Enforcer(model_path) {
+    CASBIN_VISUAL_PROFILE;
     this->enableCache = true;
 }
 
@@ -100,26 +106,31 @@ CachedEnforcer ::CachedEnforcer(const std::string& model_path)
  */
 CachedEnforcer ::CachedEnforcer(const std::string& model_path, const std::string& policy_file, bool enable_log)
     : Enforcer(model_path, policy_file, enable_log) {
+    CASBIN_VISUAL_PROFILE;
     this->enableCache = true;
 }
 
 CachedEnforcer::CachedEnforcer(const CachedEnforcer& ce)
     : Enforcer(ce) {
+    CASBIN_VISUAL_PROFILE;
     this->m = ce.m;
     this->enableCache = ce.enableCache;
 }
 
 CachedEnforcer::CachedEnforcer(CachedEnforcer&& ce)
     : Enforcer(ce) {
+    CASBIN_VISUAL_PROFILE;
     this->m = move(ce.m);
     this->enableCache = ce.enableCache;
 }
 
 void CachedEnforcer::EnableCache(const bool& enableCache) {
+    CASBIN_VISUAL_PROFILE;
     this->enableCache = enableCache;
 }
 
 std::pair<bool, bool> CachedEnforcer::getCachedResult(const std::string& key) {
+    CASBIN_VISUAL_PROFILE;
     locker.lock();
     bool ok = m.count(key);
     if (!ok) {
@@ -133,30 +144,35 @@ std::pair<bool, bool> CachedEnforcer::getCachedResult(const std::string& key) {
 }
 
 void CachedEnforcer::setCachedResult(const std::string& key, const bool& res) {
+    CASBIN_VISUAL_PROFILE;
     locker.lock();
     m[key] = res;
     locker.unlock();
 }
 
 void CachedEnforcer::InvalidateCache() {
+    CASBIN_VISUAL_PROFILE;
     m.clear();
 }
 
 // Enforce decides whether a "subject" can access a "object" with the operation
 // "action", input parameters are usually: (sub, obj, act).
 bool CachedEnforcer ::Enforce(Scope scope) {
+    CASBIN_VISUAL_PROFILE;
     return EnforceWithMatcher("", scope);
 }
 
 // Enforce with a vector param,decides whether a "subject" can access a "object"
 // with the operation "action", input parameters are usually: (sub, obj, act).
 bool CachedEnforcer::Enforce(const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     return EnforceWithMatcher("", params);
 }
 
 // Enforce with a map param,decides whether a "subject" can access a "object"
 // with the operation "action", input parameters are usually: (sub, obj, act).
 bool CachedEnforcer::Enforce(const std::unordered_map<std::string, std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     return EnforceWithMatcher("", params);
 }
 
@@ -164,6 +180,7 @@ bool CachedEnforcer::Enforce(const std::unordered_map<std::string, std::string>&
 // access a "object" with the operation "action", input parameters are usually:
 // (matcher, sub, obj, act), use model matcher by default when matcher is "".
 bool CachedEnforcer ::EnforceWithMatcher(const std::string& matcher, Scope scope) {
+    CASBIN_VISUAL_PROFILE;
     return Enforcer::EnforceWithMatcher(matcher, scope);
 }
 
@@ -171,6 +188,7 @@ bool CachedEnforcer ::EnforceWithMatcher(const std::string& matcher, Scope scope
 // access a "object" with the operation "action", input parameters are usually:
 // (matcher, sub, obj, act), use model matcher by default when matcher is "".
 bool CachedEnforcer::EnforceWithMatcher(const std::string& matcher, const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     if (!enableCache) {
         return Enforcer::EnforceWithMatcher(matcher, params);
     }
@@ -198,6 +216,7 @@ bool CachedEnforcer::EnforceWithMatcher(const std::string& matcher, const std::v
 // access a "object" with the operation "action", input parameters are usually:
 // (matcher, sub, obj, act), use model matcher by default when matcher is "".
 bool CachedEnforcer::EnforceWithMatcher(const std::string& matcher, const std::unordered_map<std::string, std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     if (!enableCache) {
         return Enforcer::EnforceWithMatcher(matcher, params);
     }

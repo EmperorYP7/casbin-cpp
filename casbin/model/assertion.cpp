@@ -28,6 +28,7 @@
 namespace casbin {
 
 void Assertion :: BuildIncrementalRoleLinks(std::shared_ptr<RoleManager> rm, policy_op op, std::vector<std::vector<std::string>> rules) {
+    CASBIN_VISUAL_PROFILE;
     this->rm = rm;
     int char_count = int(count(this->value.begin(), this->value.end(), '_'));
 
@@ -55,6 +56,7 @@ void Assertion :: BuildIncrementalRoleLinks(std::shared_ptr<RoleManager> rm, pol
 }
 
 void Assertion :: BuildRoleLinks(std::shared_ptr<RoleManager> rm) {
+    CASBIN_VISUAL_PROFILE;
     this->rm = rm;
     int char_count = int(count(this->value.begin(), this->value.end(), '_'));
 

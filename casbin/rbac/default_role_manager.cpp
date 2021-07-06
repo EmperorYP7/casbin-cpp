@@ -26,12 +26,14 @@
 namespace casbin {
 
 Role* Role :: NewRole(std::string name) {
+    CASBIN_VISUAL_PROFILE;
     Role* role = new Role;
     role->name = name;
     return role;
 }
 
 void Role :: AddRole(Role* role) {
+    CASBIN_VISUAL_PROFILE;
     for (int i = 0 ; i < this->roles.size() ; i++) {
         if (this->roles[i]->name == role->name)
             return;
@@ -41,6 +43,7 @@ void Role :: AddRole(Role* role) {
 }
 
 void Role :: DeleteRole(Role* role) {
+    CASBIN_VISUAL_PROFILE;
     for (int i = 0; i < roles.size();i++) {
         if (roles[i]->name == role->name)
             roles.erase(roles.begin()+i);
@@ -48,6 +51,7 @@ void Role :: DeleteRole(Role* role) {
 }
 
 bool Role :: HasRole(std::string name, int hierarchy_level) {
+    CASBIN_VISUAL_PROFILE;
     if (this->name == name)
         return true;
 
@@ -63,6 +67,7 @@ bool Role :: HasRole(std::string name, int hierarchy_level) {
 }
 
 bool Role :: HasDirectRole(std::string name) {
+    CASBIN_VISUAL_PROFILE;
     for(int i = 0 ; i < roles.size() ; i++){
         if (roles[i]->name == name)
             return true;
@@ -72,6 +77,7 @@ bool Role :: HasDirectRole(std::string name) {
 }
 
 std::string Role :: ToString() {
+    CASBIN_VISUAL_PROFILE;
     if(this->roles.size()==0)
         return "";
 
@@ -94,6 +100,7 @@ std::string Role :: ToString() {
 }
 
 std::vector<std::string> Role :: GetRoles() {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> names;
     for(int i = 0 ; i < roles.size() ; i++)
         names.push_back(roles[i]->name);
@@ -102,6 +109,7 @@ std::vector<std::string> Role :: GetRoles() {
 }
 
 bool DefaultRoleManager :: HasRole(std::string name) {
+    CASBIN_VISUAL_PROFILE;
     bool ok = false;
     if (this->has_pattern){
         for (std::unordered_map<std::string, Role*> :: iterator it = this->all_roles.begin() ; it != this->all_roles.end() ; it++){
@@ -116,6 +124,7 @@ bool DefaultRoleManager :: HasRole(std::string name) {
 }
 
 Role* DefaultRoleManager :: CreateRole(std::string name) {
+    CASBIN_VISUAL_PROFILE;
     Role* role;
     bool ok = this->all_roles.find(name) != this->all_roles.end();
     if (!ok) {
@@ -149,6 +158,7 @@ Role* DefaultRoleManager :: CreateRole(std::string name) {
  * @param max_hierarchy_level the maximized allowed RBAC hierarchy level.
  */
 DefaultRoleManager :: DefaultRoleManager(int max_hierarchy_level) {
+    CASBIN_VISUAL_PROFILE;
     this->max_hierarchy_level = max_hierarchy_level;
     this->has_pattern = false;
 }
@@ -157,6 +167,7 @@ DefaultRoleManager :: DefaultRoleManager(int max_hierarchy_level) {
 //
 // example: e.GetRoleManager().(*defaultrolemanager.RoleManager).AddMatchingFunc('matcher', util.KeyMatch)
 void DefaultRoleManager :: AddMatchingFunc(MatchingFunc fn) {
+    CASBIN_VISUAL_PROFILE;
     this->has_pattern = true;
     this->matching_func = fn;
 }
@@ -165,6 +176,7 @@ void DefaultRoleManager :: AddMatchingFunc(MatchingFunc fn) {
  * clear clears all stored data and resets the role manager to the initial state.
  */
 void DefaultRoleManager :: Clear() {
+    CASBIN_VISUAL_PROFILE;
     this->all_roles.clear();
 }
 
@@ -172,6 +184,7 @@ void DefaultRoleManager :: Clear() {
 // aka role: name1 inherits role: name2.
 // domain is a prefix to the roles.
 void DefaultRoleManager :: AddLink(std::string name1, std::string name2, std::vector<std::string> domain) {
+    CASBIN_VISUAL_PROFILE;
     if (domain.size() == 1) {
         name1 = domain[0] + "::" + name1;
         name2 = domain[0] + "::" + name2;
@@ -189,6 +202,7 @@ void DefaultRoleManager :: AddLink(std::string name1, std::string name2, std::ve
  * domain is a prefix to the roles.
  */
 void DefaultRoleManager :: DeleteLink(std::string name1, std::string name2, std::vector<std::string> domain) {
+    CASBIN_VISUAL_PROFILE;
     unsigned int domain_length = int(domain.size());
     if (domain_length == 1) {
         name1 = domain[0] + "::" + name1;
@@ -209,6 +223,7 @@ void DefaultRoleManager :: DeleteLink(std::string name1, std::string name2, std:
  * domain is a prefix to the roles.
  */
 bool DefaultRoleManager :: HasLink(std::string name1, std::string name2, std::vector<std::string> domain) {
+    CASBIN_VISUAL_PROFILE;
     unsigned int domain_length = int(domain.size());
     if (domain_length == 1) {
         name1 = domain[0] + "::" + name1;
@@ -230,6 +245,7 @@ bool DefaultRoleManager :: HasLink(std::string name1, std::string name2, std::ve
  * domain is a prefix to the roles.
  */
 std::vector<std::string> DefaultRoleManager :: GetRoles(std::string name, std::vector<std::string> domain) {
+    CASBIN_VISUAL_PROFILE;
     unsigned int domain_length = int(domain.size());
     if (domain_length == 1)
         name = domain[0] + "::" + name;
@@ -251,6 +267,7 @@ std::vector<std::string> DefaultRoleManager :: GetRoles(std::string name, std::v
 }
 
 std::vector<std::string> DefaultRoleManager :: GetUsers(std::string name, std::vector<std::string> domain) {
+    CASBIN_VISUAL_PROFILE;
     if (domain.size() == 1)
         name = domain[0] + "::" + name;
     else if (domain.size() > 1)
@@ -278,6 +295,7 @@ std::vector<std::string> DefaultRoleManager :: GetUsers(std::string name, std::v
  * printRoles prints all the roles to log.
  */
 void DefaultRoleManager :: PrintRoles() {
+    CASBIN_VISUAL_PROFILE;
     // DefaultLogger df_logger;
     // df_logger.EnableLog(true);
 

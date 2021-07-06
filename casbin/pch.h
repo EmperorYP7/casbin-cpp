@@ -38,5 +38,7 @@
 #include <future>
 #include <condition_variable>
 
+#include "./util/instrument_timer.h"
+
 
 #endif //PCH_H

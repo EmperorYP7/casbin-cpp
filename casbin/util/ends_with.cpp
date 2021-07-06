@@ -25,6 +25,7 @@
 namespace casbin {
 
 bool EndsWith(std::string base, std::string suffix){
+    CASBIN_VISUAL_PROFILE;
     int base_len = int(base.length());
     int suffix_len = int(suffix.length());
     return base.substr(base_len-suffix_len, suffix_len).compare(suffix) == 0;

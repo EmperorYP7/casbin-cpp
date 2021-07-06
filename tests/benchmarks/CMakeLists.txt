@@ -25,3 +25,20 @@ target_link_libraries(
     benchmark
     casbin
 )
+
+if(CASBIN_BUILD_VISUAL_BENCHMARK)
+
+    add_definitions(-DVISUAL_PROFILING)
+
+    add_executable(casbin_visual_benchmark
+        visual_benchmark.cpp
+    )
+
+    target_include_directories(casbin_visual_benchmark PUBLIC ${CMAKE_SOURCE_DIR})
+
+    target_link_libraries(
+        casbin_visual_benchmark
+        casbin
+    )
+
+endif()

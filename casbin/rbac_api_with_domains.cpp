@@ -26,6 +26,7 @@ namespace casbin {
 
 // GetUsersForRoleInDomain gets the users that has a role inside a domain. Add by Gordon
 std::vector<std::string> Enforcer :: GetUsersForRoleInDomain(const std::string& name, const std::string& domain) {
+	CASBIN_VISUAL_PROFILE;
     std::vector<std::string> domains{domain};
 	std::vector<std::string> res = m_model->m["g"].assertion_map["g"]->rm->GetUsers(name, domains);
 	return res;
@@ -33,6 +34,7 @@ std::vector<std::string> Enforcer :: GetUsersForRoleInDomain(const std::string& 
 
 // GetRolesForUserInDomain gets the roles that a user has inside a domain.
 std::vector<std::string> Enforcer :: GetRolesForUserInDomain(const std::string& name, const std::string& domain) {
+	CASBIN_VISUAL_PROFILE;
     std::vector<std::string> domains{domain};
 	std::vector<std::string> res = m_model->m["g"].assertion_map["g"]->rm->GetRoles(name, domains);
 	return res;
@@ -40,6 +42,7 @@ std::vector<std::string> Enforcer :: GetRolesForUserInDomain(const std::string& 
 
 // GetPermissionsForUserInDomain gets permissions for a user or role inside a domain.
 std::vector<std::vector<std::string>> Enforcer :: GetPermissionsForUserInDomain(const std::string& user, const std::string& domain) {
+	CASBIN_VISUAL_PROFILE;
     std::vector<std::string> field_values{user, domain};
 	return this->GetFilteredPolicy(0, field_values);
 }
@@ -47,6 +50,7 @@ std::vector<std::vector<std::string>> Enforcer :: GetPermissionsForUserInDomain(
 // AddRoleForUserInDomain adds a role for a user inside a domain.
 // Returns false if the user already has the role (aka not affected).
 bool Enforcer :: AddRoleForUserInDomain(const std::string& user, const std::string& role, const std::string& domain) {
+	CASBIN_VISUAL_PROFILE;
     std::vector<std::string> params{user, role, domain};
 	return this->AddGroupingPolicy(params);
 }
@@ -54,6 +58,7 @@ bool Enforcer :: AddRoleForUserInDomain(const std::string& user, const std::stri
 // DeleteRoleForUserInDomain deletes a role for a user inside a domain.
 // Returns false if the user does not have the role (aka not affected).
 bool Enforcer :: DeleteRoleForUserInDomain(const std::string& user, const std::string& role, const std::string& domain) {
+	CASBIN_VISUAL_PROFILE;
     std::vector<std::string> params{user, role, domain};
 	return this->RemoveGroupingPolicy(params);
 }

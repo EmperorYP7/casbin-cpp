@@ -9,6 +9,7 @@
 namespace casbin {
 
 IPMask CIDRMask(int ones, int bits) {
+    CASBIN_VISUAL_PROFILE;
     IPMask mask;
     if(bits != 8 * IP :: IPv4len && bits != 8 * IP :: IPv6len) {
         return mask;

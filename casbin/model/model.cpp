@@ -40,6 +40,7 @@ std::unordered_map<std::string, std::string> Model::section_name_map = {
 std::vector<std::string> Model::required_sections{"r","p","e","m"};
 
 void Model::LoadModelFromConfig(std::shared_ptr<ConfigInterface> cfg) {
+    CASBIN_VISUAL_PROFILE;
     for (std::unordered_map<std::string, std::string>::iterator it = section_name_map.begin(); it != section_name_map.end(); it++)
         LoadSection(this, cfg, it->first);
 
@@ -53,10 +54,12 @@ void Model::LoadModelFromConfig(std::shared_ptr<ConfigInterface> cfg) {
 }
 
 bool Model::HasSection(const std::string& sec) {
+    CASBIN_VISUAL_PROFILE;
     return this->m.find(sec) != this->m.end();
 }
 
 void Model::LoadSection(Model* model, std::shared_ptr<ConfigInterface> cfg, const std::string& sec) {
+    CASBIN_VISUAL_PROFILE;
     int i = 1;
     while(true) {
         if (!LoadAssertion(model, cfg, sec, sec+GetKeySuffix(i))){
@@ -68,6 +71,7 @@ void Model::LoadSection(Model* model, std::shared_ptr<ConfigInterface> cfg, cons
 }
 
 std::string Model ::GetKeySuffix(int i) {
+    CASBIN_VISUAL_PROFILE;
     if (i == 1)
         return "";
     std::stringstream ss;
@@ -78,12 +82,14 @@ std::string Model ::GetKeySuffix(int i) {
 }
 
 bool Model::LoadAssertion(Model* model, std::shared_ptr<ConfigInterface> cfg, const std::string& sec, const std::string& key) {
+    CASBIN_VISUAL_PROFILE;
     std::string value = cfg->GetString(section_name_map[sec] + "::" + key);
     return model->AddDef(sec, key, value);
 }
 
 // AddDef adds an assertion to the model.
 bool Model::AddDef(const std::string& sec, const std::string& key, const std::string& value) {
+    CASBIN_VISUAL_PROFILE;
     if(value == "")
         return false;
 
@@ -109,12 +115,14 @@ bool Model::AddDef(const std::string& sec, const std::string& key, const std::st
 
 // LoadModel loads the model from model CONF file.
 void Model::LoadModel(const std::string& path) {
+    CASBIN_VISUAL_PROFILE;
     std::shared_ptr<Config> cfg = Config::NewConfig(path);
     LoadModelFromConfig(cfg);
 }
 
 // LoadModelFromText loads the model from the text.
 void Model::LoadModelFromText(const std::string& text) {
+    CASBIN_VISUAL_PROFILE;
     std::shared_ptr<Config> cfg = Config::NewConfigFromText(text);
     LoadModelFromConfig(cfg);
 }
@@ -137,19 +145,23 @@ void Model::PrintModel() {
 }
 
 Model::Model(){
+    CASBIN_VISUAL_PROFILE;
 }
 
 Model::Model(const std::string& path){
+    CASBIN_VISUAL_PROFILE;
     LoadModel(path);
 }
 
 // NewModel creates an empty model.
 Model* Model::NewModel() {
+    CASBIN_VISUAL_PROFILE;
     return new Model();
 }
 
 // NewModel creates a model from a .CONF file.
 Model* Model::NewModelFromFile(const std::string& path) {
+    CASBIN_VISUAL_PROFILE;
     Model* m = NewModel();
     m->LoadModel(path);
     return m;
@@ -157,18 +169,21 @@ Model* Model::NewModelFromFile(const std::string& path) {
 
 // NewModel creates a model from a std::string which contains model text.
 Model* Model::NewModelFromString(const std::string& text) {
+    CASBIN_VISUAL_PROFILE;
     Model* m = NewModel();
     m->LoadModelFromText(text);
     return m;
 }
 
 void Model::BuildIncrementalRoleLinks(std::shared_ptr<RoleManager> rm, policy_op op, const std::string& sec, const std::string& p_type, const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     if (sec == "g")
         this->m[sec].assertion_map[p_type]->BuildIncrementalRoleLinks(rm, op, rules);
 }
 
 // BuildRoleLinks initializes the roles in RBAC.
 void Model::BuildRoleLinks(std::shared_ptr<RoleManager> rm) {
+    CASBIN_VISUAL_PROFILE;
     for (std::unordered_map<std::string, std::shared_ptr<Assertion>>::iterator it = this->m["g"].assertion_map.begin() ; it != this->m["g"].assertion_map.end() ; it++)
         (it->second)->BuildRoleLinks(rm);
 }
@@ -195,6 +210,7 @@ void Model::PrintPolicy() {
 
 // ClearPolicy clears all current policy.
 void Model::ClearPolicy() {
+    CASBIN_VISUAL_PROFILE;
     // Caching "p" assertion map by reference for the scope of this function
     auto& p_assertion_map = this->m["p"].assertion_map;
     for (auto it : p_assertion_map) {
@@ -212,11 +228,13 @@ void Model::ClearPolicy() {
 
 // GetPolicy gets all rules in a policy.
 std::vector<std::vector<std::string>> Model::GetPolicy(const std::string& sec, const std::string& p_type) {
+    CASBIN_VISUAL_PROFILE;
     return this->m[sec].assertion_map[p_type]->policy;
 }
 
 // GetFilteredPolicy gets rules based on field filters from a policy.
 std::vector<std::vector<std::string>> Model::GetFilteredPolicy(const std::string& sec, const std::string& p_type, int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::vector<std::string>> res;
     std::vector<std::vector<std::string>> policy(m[sec].assertion_map[p_type]->policy);
     for(int i = 0 ; i < policy.size() ; i++){
@@ -236,6 +254,7 @@ std::vector<std::vector<std::string>> Model::GetFilteredPolicy(const std::string
 
 // HasPolicy determines whether a model has the specified policy rule.
 bool Model::HasPolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& rule) {
+    CASBIN_VISUAL_PROFILE;
     auto& policy = this->m[sec].assertion_map[p_type]->policy;
     for(auto policy_it : policy)
         if (ArrayEquals(rule, policy_it))
@@ -246,6 +265,7 @@ bool Model::HasPolicy(const std::string& sec, const std::string& p_type, const s
 
 // AddPolicy adds a policy rule to the model.
 bool Model::AddPolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& rule) {
+    CASBIN_VISUAL_PROFILE;
     if(!this->HasPolicy(sec, p_type, rule)) {
         m[sec].assertion_map[p_type]->policy.push_back(rule);
         return true;
@@ -256,6 +276,7 @@ bool Model::AddPolicy(const std::string& sec, const std::string& p_type, const s
 
 // AddPolicies adds policy rules to the model.
 bool Model::AddPolicies(const std::string& sec, const std::string& p_type, const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     for (auto rule : rules)
         if (this->HasPolicy(sec, p_type, rule))
             return false;
@@ -267,6 +288,7 @@ bool Model::AddPolicies(const std::string& sec, const std::string& p_type, const
 }
 
 bool Model::UpdatePolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& oldRule, const std::vector<std::string>& newRule) {
+    CASBIN_VISUAL_PROFILE;
     // Caching policy by reference for the scope of this function
     auto& policy = m[sec].assertion_map[p_type]->policy;
 
@@ -297,6 +319,7 @@ bool Model::UpdatePolicy(const std::string& sec, const std::string& p_type, cons
 }
 
 bool Model::UpdatePolicies(const std::string& sec, const std::string& p_type, const std::vector<std::vector<std::string>>& oldRules, const std::vector<std::vector<std::string>>& newRules) {
+    CASBIN_VISUAL_PROFILE;
     // Caching policy by reference for the scope of this function
     auto& policy = this->m[sec].assertion_map[p_type]->policy;
 
@@ -332,6 +355,7 @@ bool Model::UpdatePolicies(const std::string& sec, const std::string& p_type, co
 
 // RemovePolicy removes a policy rule from the model.
 bool Model::RemovePolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& rule) {
+    CASBIN_VISUAL_PROFILE;
     // Caching policy by reference for the scope of this function
     auto& policy = m[sec].assertion_map[p_type]->policy;
     for (auto it = policy.begin(); it != policy.end(); ++it) {
@@ -345,6 +369,7 @@ bool Model::RemovePolicy(const std::string& sec, const std::string& p_type, cons
 
 // RemovePolicies removes policy rules from the model.
 bool Model::RemovePolicies(const std::string& sec, const std::string& p_type, const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     // Caching policy by reference for the scope of this function
     auto& policy = this->m[sec].assertion_map[p_type]->policy;
 
@@ -371,6 +396,7 @@ bool Model::RemovePolicies(const std::string& sec, const std::string& p_type, co
 
 // RemoveFilteredPolicy removes policy rules based on field filters from the model.
 std::pair<bool, std::vector<std::vector<std::string>>> Model::RemoveFilteredPolicy(const std::string& sec, const std::string& p_type, int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::vector<std::string>> tmp;
     std::vector<std::vector<std::string>> effects;
     std::vector<std::vector<std::string>> policy(m[sec].assertion_map[p_type]->policy);
@@ -398,6 +424,7 @@ std::pair<bool, std::vector<std::vector<std::string>>> Model::RemoveFilteredPoli
 
 // GetValuesForFieldInPolicy gets all values for a field for all rules in a policy, duplicated values are removed.
 std::vector<std::string> Model::GetValuesForFieldInPolicy(const std::string& sec, const std::string& p_type, int field_index) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> values;
     std::vector<std::vector<std::string>> policy(m[sec].assertion_map[p_type]->policy);
     for(int i = 0 ; i < policy.size() ; i++)
@@ -410,6 +437,7 @@ std::vector<std::string> Model::GetValuesForFieldInPolicy(const std::string& sec
 
 // GetValuesForFieldInPolicyAllTypes gets all values for a field for all rules in a policy of all p_types, duplicated values are removed.
 std::vector<std::string> Model::GetValuesForFieldInPolicyAllTypes(const std::string& sec, int field_index) {
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> values;
 
     for (std::unordered_map<std::string, std::shared_ptr<Assertion>>::iterator it = m[sec].assertion_map.begin() ; it != m[sec].assertion_map.end() ; it++) {

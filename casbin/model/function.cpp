@@ -26,10 +26,12 @@
 namespace casbin {
 
 FunctionMap :: FunctionMap(){
+    CASBIN_VISUAL_PROFILE;
     scope = NULL;
 }
 
 void FunctionMap :: ProcessFunctions(std::string expression){
+    CASBIN_VISUAL_PROFILE;
     for(auto func: func_list){
         int index = int(expression.find(func+"("));
 
@@ -57,6 +59,7 @@ void FunctionMap :: ProcessFunctions(std::string expression){
 }
 
 int FunctionMap :: GetRLen(){
+    CASBIN_VISUAL_PROFILE;
     bool found = FetchIdentifier(scope, "rlen");
     if(found)
         return GetInt(scope);
@@ -64,62 +67,76 @@ int FunctionMap :: GetRLen(){
 }
 
 bool FunctionMap :: Evaluate(std::string expression){
+    CASBIN_VISUAL_PROFILE;
     ProcessFunctions(expression);
     return Eval(scope, expression);
 }
 
 bool FunctionMap :: GetBooleanResult(){
+    CASBIN_VISUAL_PROFILE;
     return bool(duk_get_boolean(scope, -1));
 }
 
 // AddFunction adds an expression function.
 void FunctionMap :: AddFunction(std::string func_name, Function f, Index nargs) {
+    CASBIN_VISUAL_PROFILE;
     func_list.push_back(func_name);
     PushFunction(scope, f, func_name, nargs);
 }
 
 void FunctionMap :: AddFunctionPropToR(std::string identifier, Function func, Index nargs){
+    CASBIN_VISUAL_PROFILE;
     PushFunctionPropToObject(scope, "r", func, identifier, nargs);
 }
 
 void FunctionMap :: AddBooleanPropToR(std::string identifier, bool val){
+    CASBIN_VISUAL_PROFILE;
     PushBooleanPropToObject(scope, "r", val, identifier);
 }
 
 void FunctionMap :: AddTruePropToR(std::string identifier){
+    CASBIN_VISUAL_PROFILE;
     PushTruePropToObject(scope, "r", identifier);
 }
 
 void FunctionMap :: AddFalsePropToR(std::string identifier){
+    CASBIN_VISUAL_PROFILE;
     PushFalsePropToObject(scope, "r", identifier);
 }
 
 void FunctionMap :: AddIntPropToR(std::string identifier, int val){
+    CASBIN_VISUAL_PROFILE;
     PushIntPropToObject(scope, "r", val, identifier);
 }
 
 void FunctionMap :: AddFloatPropToR(std::string identifier, float val){
+    CASBIN_VISUAL_PROFILE;
     PushFloatPropToObject(scope, "r", val, identifier);
 }
 
 void FunctionMap :: AddDoublePropToR(std::string identifier, double val){
+    CASBIN_VISUAL_PROFILE;
     PushDoublePropToObject(scope, "r", val, identifier);
 }
 
 void FunctionMap :: AddStringPropToR(std::string identifier, std::string val){
+    CASBIN_VISUAL_PROFILE;
     PushStringPropToObject(scope, "r", val, identifier);
 }
 
 void FunctionMap :: AddPointerPropToR(std::string identifier, void* val){
+    CASBIN_VISUAL_PROFILE;
     PushPointerPropToObject(scope, "r", val, identifier);
 }
 
 void FunctionMap :: AddObjectPropToR(std::string identifier){
+    CASBIN_VISUAL_PROFILE;
     PushObjectPropToObject(scope, "r", identifier);
 }
 
 // LoadFunctionMap loads an initial function map.
 void FunctionMap :: LoadFunctionMap() {
+    CASBIN_VISUAL_PROFILE;
     AddFunction("keyMatch", KeyMatch, 2);
     AddFunction("keyMatch2", KeyMatch2, 2);
     AddFunction("keyMatch3", KeyMatch3, 2);

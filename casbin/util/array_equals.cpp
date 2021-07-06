@@ -28,6 +28,7 @@ namespace casbin {
 
 // ArrayEquals determines whether two std::string arrays are identical.
 bool ArrayEquals(std::vector<std::string> a, std::vector<std::string> b) {
+    CASBIN_VISUAL_PROFILE;
     if (a.size() != b.size()) {
         return false;
     }

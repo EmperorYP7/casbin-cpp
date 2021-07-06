@@ -11,6 +11,7 @@ namespace casbin {
 // Decimal to integer.
 // Returns number, characters consumed, success.
 std::pair<int, int> dtoi(std::string s) {
+    CASBIN_VISUAL_PROFILE;
     int n = 0;
     int i = 0;
     std::pair<int, int> p;

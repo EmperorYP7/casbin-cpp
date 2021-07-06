@@ -29,6 +29,7 @@
 namespace casbin {
 
 std::vector<std::string> Split(std::string str, std::string del, int limit){
+    CASBIN_VISUAL_PROFILE;
     std::vector<std::string> tokens;
 
     if(limit<=0)

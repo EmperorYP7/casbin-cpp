@@ -33,6 +33,7 @@ namespace casbin {
 * @return the escaped value.
 */
 std::string EscapeAssertion(std::string s) {
+    CASBIN_VISUAL_PROFILE;
     std::regex regex_s("[a-zA-Z0-9. ]+");
 
     std::sregex_iterator words_begin = std::sregex_iterator(s.begin(), s.end(), regex_s); 

@@ -9,6 +9,7 @@
 namespace casbin {
 
 bool equal(IPMask m1, IPMask m2) {
+    CASBIN_VISUAL_PROFILE;
     if(m1.size() != m2.size())
         return false;
     for(int i = 0 ; i < m1.size() ; i++) {

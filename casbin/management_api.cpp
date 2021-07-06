@@ -26,91 +26,109 @@ namespace casbin {
 
 // GetAllSubjects gets the list of subjects that show up in the current policy.
 std::vector<std::string> Enforcer :: GetAllSubjects() {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetValuesForFieldInPolicyAllTypes("p", 0);
 }
 
 // GetAllNamedSubjects gets the list of subjects that show up in the current named policy.
 std::vector<std::string> Enforcer :: GetAllNamedSubjects(const std::string& p_type) {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetValuesForFieldInPolicy("p", p_type, 0);
 }
 
 // GetAllObjects gets the list of objects that show up in the current policy.
 std::vector<std::string> Enforcer :: GetAllObjects() {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetValuesForFieldInPolicyAllTypes("p", 1);
 }
 
 // GetAllNamedObjects gets the list of objects that show up in the current named policy.
 std::vector<std::string> Enforcer :: GetAllNamedObjects(const std::string& p_type) {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetValuesForFieldInPolicy("p", p_type, 1);
 }
 
 // GetAllActions gets the list of actions that show up in the current policy.
 std::vector<std::string> Enforcer :: GetAllActions() {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetValuesForFieldInPolicyAllTypes("p", 2);
 }
 
 // GetAllNamedActions gets the list of actions that show up in the current named policy.
 std::vector<std::string> Enforcer :: GetAllNamedActions(const std::string& p_type) {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetValuesForFieldInPolicy("p", p_type, 2);
 }
 
 // GetAllRoles gets the list of roles that show up in the current policy.
 std::vector<std::string> Enforcer :: GetAllRoles() {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetValuesForFieldInPolicyAllTypes("g", 1);
 }
 
 // GetAllNamedRoles gets the list of roles that show up in the current named policy.
 std::vector<std::string> Enforcer :: GetAllNamedRoles(const std::string& p_type) {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetValuesForFieldInPolicy("g", p_type, 1);
 }
 
 // GetPolicy gets all the authorization rules in the policy.
 std::vector<std::vector<std::string>> Enforcer :: GetPolicy() {
+    CASBIN_VISUAL_PROFILE;
     return this->GetNamedPolicy("p");
 }
 
 // GetFilteredPolicy gets all the authorization rules in the policy, field filters can be specified.
 std::vector<std::vector<std::string>> Enforcer :: GetFilteredPolicy(int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     return this->GetFilteredNamedPolicy("p", field_index, field_values);
 }
 
 // GetNamedPolicy gets all the authorization rules in the named policy.
 std::vector<std::vector<std::string>> Enforcer :: GetNamedPolicy(const std::string& p_type) {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetPolicy("p", p_type);
 }
 
 // GetFilteredNamedPolicy gets all the authorization rules in the named policy, field filters can be specified.
 std::vector<std::vector<std::string>> Enforcer :: GetFilteredNamedPolicy(const std::string& p_type, int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetFilteredPolicy("p", p_type, field_index, field_values);
 }
 
 // GetGroupingPolicy gets all the role inheritance rules in the policy.
 std::vector<std::vector<std::string>> Enforcer :: GetGroupingPolicy() {
+    CASBIN_VISUAL_PROFILE;
     return this->GetNamedGroupingPolicy("g");
 }
 
 // GetFilteredGroupingPolicy gets all the role inheritance rules in the policy, field filters can be specified.
 std::vector<std::vector<std::string>> Enforcer :: GetFilteredGroupingPolicy(int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     return this->GetFilteredNamedGroupingPolicy("g", field_index, field_values);
 }
 
 // GetNamedGroupingPolicy gets all the role inheritance rules in the policy.
 std::vector<std::vector<std::string>> Enforcer :: GetNamedGroupingPolicy(const std::string& p_type) {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetPolicy("g", p_type);
 }
 
 // GetFilteredNamedGroupingPolicy gets all the role inheritance rules in the policy, field filters can be specified.
 std::vector<std::vector<std::string>> Enforcer :: GetFilteredNamedGroupingPolicy(const std::string& p_type, int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     return m_model->GetFilteredPolicy("g", p_type, field_index, field_values);
 }
 
 // HasPolicy determines whether an authorization rule exists.
 bool Enforcer :: HasPolicy(const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     return this->HasNamedPolicy("p", params);
 }
 
 // HasNamedPolicy determines whether a named authorization rule exists.
 bool Enforcer :: HasNamedPolicy(const std::string& p_type, const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     if (params.size() == 1) {
         std::vector<std::string> str_slice{params[0]};
         return m_model->HasPolicy("p", p_type, str_slice);
@@ -126,6 +144,7 @@ bool Enforcer :: HasNamedPolicy(const std::string& p_type, const std::vector<std
 // If the rule already exists, the function returns false and the rule will not be added.
 // Otherwise the function returns true by adding the new rule.
 bool Enforcer :: AddPolicy(const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     return this->AddNamedPolicy("p", params);
 }
 
@@ -133,6 +152,7 @@ bool Enforcer :: AddPolicy(const std::vector<std::string>& params) {
 // If the rule already exists, the function returns false for the corresponding rule and the rule will not be added.
 // Otherwise the function returns true for the corresponding rule by adding the new rule.
 bool Enforcer :: AddPolicies( const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     return this->AddNamedPolicies("p", rules);
 }
 
@@ -140,6 +160,7 @@ bool Enforcer :: AddPolicies( const std::vector<std::vector<std::string>>& rules
 // If the rule already exists, the function returns false and the rule will not be added.
 // Otherwise the function returns true by adding the new rule.
 bool Enforcer :: AddNamedPolicy(const std::string& p_type, const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     if (params.size() == 1) {
         std::vector<std::string> str_slice{params[0]};
         return this->addPolicy("p", p_type, str_slice);
@@ -155,26 +176,31 @@ bool Enforcer :: AddNamedPolicy(const std::string& p_type, const std::vector<std
 // If the rule already exists, the function returns false for the corresponding rule and the rule will not be added.
 // Otherwise the function returns true for the corresponding by adding the new rule.
 bool Enforcer :: AddNamedPolicies(const std::string& p_type,  const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     return this->addPolicies("p", p_type, rules);
 }
 
 // RemovePolicy removes an authorization rule from the current policy.
 bool Enforcer :: RemovePolicy(const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     return this->RemoveNamedPolicy("p", params);
 }
 
 // RemovePolicies removes authorization rules from the current policy.
 bool Enforcer :: RemovePolicies( const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     return this->RemoveNamedPolicies("p", rules);
 }
 
 // RemoveFilteredPolicy removes an authorization rule from the current policy, field filters can be specified.
 bool Enforcer :: RemoveFilteredPolicy(int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     return this->RemoveFilteredNamedPolicy("p", field_index, field_values);
 }
 
 // RemoveNamedPolicy removes an authorization rule from the current named policy.
 bool Enforcer :: RemoveNamedPolicy(const std::string& p_type, const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     if (params.size() == 1) {
         std::vector<std::string> str_slice{params[0]};
         return this->removePolicy("p", p_type, str_slice);
@@ -188,21 +214,25 @@ bool Enforcer :: RemoveNamedPolicy(const std::string& p_type, const std::vector<
 
 // RemoveNamedPolicies removes authorization rules from the current named policy.
 bool Enforcer :: RemoveNamedPolicies(const std::string& p_type,  const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
 	return this->removePolicies("p", p_type, rules);
 }
 
 // RemoveFilteredNamedPolicy removes an authorization rule from the current named policy, field filters can be specified.
 bool Enforcer :: RemoveFilteredNamedPolicy(const std::string& p_type, int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     return this->removeFilteredPolicy("p", p_type, field_index, field_values);
 }
 
 // HasGroupingPolicy determines whether a role inheritance rule exists.
 bool Enforcer :: HasGroupingPolicy(const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     return this->HasNamedGroupingPolicy("g", params);
 }
 
 // HasNamedGroupingPolicy determines whether a named role inheritance rule exists.
 bool Enforcer :: HasNamedGroupingPolicy(const std::string& p_type, const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     if (params.size() == 1) {
         std::vector<std::string> str_slice{params[0]};
         return m_model->HasPolicy("g", p_type, str_slice);
@@ -218,6 +248,7 @@ bool Enforcer :: HasNamedGroupingPolicy(const std::string& p_type, const std::ve
 // If the rule already exists, the function returns false and the rule will not be added.
 // Otherwise the function returns true by adding the new rule.
 bool Enforcer :: AddGroupingPolicy(const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     return this->AddNamedGroupingPolicy("g", params);
 }
 
@@ -225,6 +256,7 @@ bool Enforcer :: AddGroupingPolicy(const std::vector<std::string>& params) {
 // If the rule already exists, the function returns false for the corresponding policy rule and the rule will not be added.
 // Otherwise the function returns true for the corresponding policy rule by adding the new rule.
 bool Enforcer :: AddGroupingPolicies( const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     return this->AddNamedGroupingPolicies("g", rules);
 }
 
@@ -232,6 +264,7 @@ bool Enforcer :: AddGroupingPolicies( const std::vector<std::vector<std::string>
 // If the rule already exists, the function returns false and the rule will not be added.
 // Otherwise the function returns true by adding the new rule.
 bool Enforcer :: AddNamedGroupingPolicy(const std::string& p_type, const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     bool rule_added;
     if (params.size() == 1) {
         std::vector<std::string> str_slice{params[0]};
@@ -254,26 +287,31 @@ bool Enforcer :: AddNamedGroupingPolicy(const std::string& p_type, const std::ve
 // If the rule already exists, the function returns false for the corresponding policy rule and the rule will not be added.
 // Otherwise the function returns true for the corresponding policy rule by adding the new rule.
 bool Enforcer :: AddNamedGroupingPolicies(const std::string& p_type,  const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     return this->addPolicies("g", p_type, rules);
 }
 
 // RemoveGroupingPolicy removes a role inheritance rule from the current policy.
 bool Enforcer :: RemoveGroupingPolicy(const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     return this->RemoveNamedGroupingPolicy("g", params);
 }
 
 // RemoveGroupingPolicies removes role inheritance rulea from the current policy.
 bool Enforcer :: RemoveGroupingPolicies( const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     return this->RemoveNamedGroupingPolicies("g", rules);
 }
 
 // RemoveFilteredGroupingPolicy removes a role inheritance rule from the current policy, field filters can be specified.
 bool Enforcer :: RemoveFilteredGroupingPolicy(int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     return this->RemoveFilteredNamedGroupingPolicy("g", field_index, field_values);
 }
 
 // RemoveNamedGroupingPolicy removes a role inheritance rule from the current named policy.
 bool Enforcer :: RemoveNamedGroupingPolicy(const std::string& p_type, const std::vector<std::string>& params) {
+    CASBIN_VISUAL_PROFILE;
     bool rule_removed;
     if(params.size() == 1){
         std::vector<std::string> str_slice{params[0]};
@@ -294,11 +332,13 @@ bool Enforcer :: RemoveNamedGroupingPolicy(const std::string& p_type, const std:
 
 // RemoveNamedGroupingPolicies removes role inheritance rules from the current named policy.
 bool Enforcer :: RemoveNamedGroupingPolicies(const std::string& p_type,  const std::vector<std::vector<std::string>>& rules) {
+    CASBIN_VISUAL_PROFILE;
     return this->removePolicies("g", p_type, rules);
 }
 
 // RemoveFilteredNamedGroupingPolicy removes a role inheritance rule from the current named policy, field filters can be specified.
 bool Enforcer :: RemoveFilteredNamedGroupingPolicy(const std::string& p_type, int field_index, const std::vector<std::string>& field_values) {
+    CASBIN_VISUAL_PROFILE;
     bool rule_removed = this->removeFilteredPolicy("g", p_type, field_index, field_values);
 
     if(m_auto_build_role_links)
@@ -309,33 +349,40 @@ bool Enforcer :: RemoveFilteredNamedGroupingPolicy(const std::string& p_type, in
 
 // AddFunction adds a customized function.
 void Enforcer :: AddFunction(const std::string& name, Function function, Index nargs) {
+    CASBIN_VISUAL_PROFILE;
     m_user_func_list.push_back(make_tuple(name, function, nargs));
 }
 
 
 bool Enforcer :: UpdateGroupingPolicy(const std::vector<std::string>& oldRule, const std::vector<std::string>& newRule) {
+    CASBIN_VISUAL_PROFILE;
     return UpdateNamedGroupingPolicy("g", oldRule, newRule);
 }
 
 bool Enforcer :: UpdateNamedGroupingPolicy(const std::string& p_type, const std::vector<std::string>& oldRule, const std::vector<std::string>& newRule) {
+    CASBIN_VISUAL_PROFILE;
     return this->updatePolicy("g", p_type, oldRule, newRule);
 }
 
 // UpdatePolicy updates an authorization rule from the current policy.
 bool Enforcer :: UpdatePolicy(const std::vector<std::string>& oldPolicy, const std::vector<std::string>& newPolicy) {
+    CASBIN_VISUAL_PROFILE;
     return UpdateNamedPolicy("p", oldPolicy, newPolicy);
 }
 
 bool Enforcer :: UpdateNamedPolicy(const std::string& ptype, const std::vector<std::string>& p1, const std::vector<std::string>& p2) {
+    CASBIN_VISUAL_PROFILE;
     return this->updatePolicy("p", ptype, p1, p2);
 }
 
 // UpdatePolicies updates authorization rules from the current policies.
 bool Enforcer :: UpdatePolicies(const std::vector<std::vector<std::string>>& oldPolices, const std::vector<std::vector<std::string>>& newPolicies) {
+    CASBIN_VISUAL_PROFILE;
     return UpdateNamedPolicies("p", oldPolices, newPolicies);
 }
 
 bool Enforcer :: UpdateNamedPolicies(const std::string& ptype, const std::vector<std::vector<std::string>>& p1, const std::vector<std::vector<std::string>>& p2) {
+    CASBIN_VISUAL_PROFILE;
     return this->updatePolicies("p", ptype, p1, p2);
 }
 

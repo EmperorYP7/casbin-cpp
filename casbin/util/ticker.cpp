@@ -26,24 +26,30 @@ namespace casbin {
 Ticker::Ticker(std::function<void()> onTick, std::chrono::duration<int64_t, std::nano> tickInterval)
     : _onTick (onTick)
     , _tickInterval (tickInterval)
-    , _running (false) {}
+    , _running (false) {
+    CASBIN_VISUAL_PROFILE;
+}
 
 Ticker::~Ticker () {
+    CASBIN_VISUAL_PROFILE;
     stop();
 }
 
 void Ticker::start() {
+    CASBIN_VISUAL_PROFILE;
     if (_running) return;
     _running = true;
     _futures1.push_back(std::async(std::launch::async, &Ticker::timer_loop, this));
 }
 
 void Ticker::stop() { 
+    CASBIN_VISUAL_PROFILE;
     _running = false; 
 }
 
 void Ticker::timer_loop()
 {
+    CASBIN_VISUAL_PROFILE;
     while (_running) {
         {
             std::lock_guard<std::mutex> lock(_tickIntervalMutex);

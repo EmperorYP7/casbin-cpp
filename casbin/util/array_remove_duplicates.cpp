@@ -28,6 +28,7 @@ namespace casbin {
 
 // ArrayRemoveDuplicates removes any duplicated elements in a std::string array.
 void ArrayRemoveDuplicates(std::vector<std::string> &s) {
+    CASBIN_VISUAL_PROFILE;
     std::unordered_map<std::string, bool> found;
     int j = 0;
     for (int i = 0 ; i < s.size() ; i++) {

@@ -41,6 +41,7 @@ std::mutex Config::mtx_lock;
  * addConfig adds a new section->key:value to the configuration.
  */
 bool Config :: AddConfig(std::string section, std::string option, std::string value) {
+    CASBIN_VISUAL_PROFILE;
     if (!section.compare(""))
         section = DEFAULT_SECTION;
     bool ok = data[section].find(option) != data[section].end();
@@ -49,6 +50,7 @@ bool Config :: AddConfig(std::string section, std::string option, std::string va
 }
 
 void Config :: Parse(std::string f_name) {
+    CASBIN_VISUAL_PROFILE;
     mtx_lock.lock();
     std::ifstream infile;
     try {
@@ -63,6 +65,7 @@ void Config :: Parse(std::string f_name) {
 }
 
 void Config ::ParseBuffer(std::istream * buf) {
+    CASBIN_VISUAL_PROFILE;
     std::string section = "";
     int line_num = 0;
     std::string line;
@@ -102,6 +105,7 @@ void Config ::ParseBuffer(std::istream * buf) {
  * @return the constructor of Config.
  */
 std::shared_ptr<Config> Config :: NewConfig(std::string conf_name) {
+    CASBIN_VISUAL_PROFILE;
     std::shared_ptr<Config> c(new Config);
     c->Parse(conf_name);
     return c;
@@ -114,6 +118,7 @@ std::shared_ptr<Config> Config :: NewConfig(std::string conf_name) {
  * @return the constructor of Config.
  */
 std::shared_ptr<Config> Config :: NewConfigFromText(std::string text) {
+    CASBIN_VISUAL_PROFILE;
     std::shared_ptr<Config> c(new Config);
     std::stringstream stream(text);
     c->ParseBuffer(&stream);
@@ -121,22 +126,27 @@ std::shared_ptr<Config> Config :: NewConfigFromText(std::string text) {
 }
 
 bool Config :: GetBool(std::string key) {
+    CASBIN_VISUAL_PROFILE;
     return Get(key).compare("true")==0;
 }
 
 int Config :: GetInt(std::string key) {
+    CASBIN_VISUAL_PROFILE;
     return atoi(Get(key).c_str());
 }
 
 float Config :: GetFloat(std::string key) {
+    CASBIN_VISUAL_PROFILE;
     return float(atof(Get(key).c_str()));
 }
 
 std::string Config :: GetString(std::string key) {
+    CASBIN_VISUAL_PROFILE;
     return Get(key);
 }
 
 std::vector<std::string> Config :: GetStrings(std::string key) {
+    CASBIN_VISUAL_PROFILE;
     std::string v = Get(key);
     if (!v.compare("")) {
         std::vector<std::string> empty;
@@ -146,6 +156,7 @@ std::vector<std::string> Config :: GetStrings(std::string key) {
 }
 
 void Config :: Set(std::string key, std::string value) {
+    CASBIN_VISUAL_PROFILE;
     mtx_lock.lock();
     if (key.length() == 0) {
         mtx_lock.unlock();
@@ -169,6 +180,7 @@ void Config :: Set(std::string key, std::string value) {
 }
 
 std::string Config :: Get(std::string key) {
+    CASBIN_VISUAL_PROFILE;
     std::string section;
     std::string option;
     transform(key.begin(), key.end(), key.begin(), ::tolower);

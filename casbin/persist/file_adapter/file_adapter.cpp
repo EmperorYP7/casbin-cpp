@@ -16,12 +16,14 @@ namespace casbin {
 
 // NewAdapter is the constructor for Adapter.
 FileAdapter :: FileAdapter(std::string file_path) {
+    CASBIN_VISUAL_PROFILE;
     this->file_path = file_path;
     this->filtered = false;
 }
 
 // LoadPolicy loads all policy rules from the storage.
 void FileAdapter :: LoadPolicy(Model* model) {
+    CASBIN_VISUAL_PROFILE;
     if (this->file_path == "")
         throw CasbinAdapterException("Invalid file path, file path cannot be empty");
 
@@ -30,6 +32,7 @@ void FileAdapter :: LoadPolicy(Model* model) {
 
 // SavePolicy saves all policy rules to the storage.
 void FileAdapter :: SavePolicy(Model* model) {
+    CASBIN_VISUAL_PROFILE;
     if (this->file_path == "") {
         throw CasbinAdapterException("Invalid file path, file path cannot be empty");
     }
@@ -56,6 +59,7 @@ void FileAdapter :: SavePolicy(Model* model) {
 }
 
 void FileAdapter :: LoadPolicyFile(Model* model, void (*handler)(std::string, Model*)) {
+    CASBIN_VISUAL_PROFILE;
     std::ifstream in_file;
     try {
         in_file.open(this->file_path);
@@ -73,6 +77,7 @@ void FileAdapter :: LoadPolicyFile(Model* model, void (*handler)(std::string, Mo
 }
 
 void FileAdapter :: SavePolicyFile(std::string text) {
+    CASBIN_VISUAL_PROFILE;
     std::ofstream out_file;
     out_file.open(this->file_path, std::ios::out);
     try {
@@ -103,6 +108,7 @@ void FileAdapter :: RemoveFilteredPolicy(std::string sec, std::string p_type, in
 
 // IsFiltered returns true if the loaded policy has been filtered.
 bool FileAdapter :: IsFiltered() {
+    CASBIN_VISUAL_PROFILE;
     return this->filtered;
 }
 

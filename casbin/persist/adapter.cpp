@@ -27,6 +27,7 @@ namespace casbin {
 
 // LoadPolicyLine loads a text line as a policy rule to model.
 void LoadPolicyLine(std::string line, Model* model) {
+    CASBIN_VISUAL_PROFILE;
     if(line == "" || line.find("#")==0)
         return;
 
