@@ -28,7 +28,7 @@ namespace casbin {
 /**
  * MergeEffects merges all matching results collected by the enforcer into a single decision.
  */
-bool DefaultEffector :: MergeEffects(std::string expr, std::vector<Effect> effects, std::vector<float> results) {
+bool DefaultEffector::MergeEffects(const std::string& expr, const std::vector<Effect>& effects, const std::vector<float>& results) {
     bool result;
 
     if (!expr.compare("some(where (p.eft == allow))")) {
@@ -59,9 +59,9 @@ bool DefaultEffector :: MergeEffects(std::string expr, std::vector<Effect> effec
         }
     } else if (!expr.compare("priority(p.eft) || deny")) {
         result = false;
-        for(unsigned int index = 0 ; index < effects.size(); index++){
-            if (effects[index] != Effect::Indeterminate) {
-                if (effects[index] == Effect::Allow) {
+        for(const Effect& effect : effects){
+            if (effect != Effect::Indeterminate) {
+                if (effect == Effect::Allow) {
                     result = true;
                 } else {
                     result = false;

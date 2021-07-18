@@ -23,7 +23,7 @@ class Logger{
 
         //Printf formats according to a format specifier and logs the message.
         template <typename... Object>
-        void Printf(std::string, Object... objects);
+        void Printf(const std::string&, Object... objects);
 };
 
 } // namespace casbin

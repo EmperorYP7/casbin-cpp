@@ -16,7 +16,7 @@ void Logger::Print(T arg, Object... objects) {
 
 //Printf formats according to a format specifier and logs the message.
 template <typename... Object>
-void Logger::Printf(std::string format, Object... objects) {
+void Logger::Printf(const std::string& format, Object... objects) {
     Print(objects...);
 }
 

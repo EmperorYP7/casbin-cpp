@@ -30,7 +30,7 @@ class DefaultEffector : public Effector{
         /**
          * MergeEffects merges all matching results collected by the enforcer into a single decision.
          */
-        bool MergeEffects(std::string expr, std::vector<Effect> effects, std::vector<float> results);
+        bool MergeEffects(const std::string& expr, const std::vector<Effect>& effects, const std::vector<float>& results);
 };
 
 } // namespace casbin

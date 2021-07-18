@@ -40,7 +40,7 @@ std::mutex Config::mtx_lock;
 /**
  * addConfig adds a new section->key:value to the configuration.
  */
-bool Config :: AddConfig(std::string section, std::string option, std::string value) {
+bool Config::AddConfig(std::string section, const std::string& option, const std::string& value) {
     if (!section.compare(""))
         section = DEFAULT_SECTION;
     bool ok = data[section].find(option) != data[section].end();
@@ -48,7 +48,7 @@ bool Config :: AddConfig(std::string section, std::string option, std::string va
     return !ok;
 }
 
-void Config :: Parse(std::string f_name) {
+void Config::Parse(const std::string& f_name) {
     mtx_lock.lock();
     std::ifstream infile;
     try {
@@ -62,7 +62,7 @@ void Config :: Parse(std::string f_name) {
     infile.close();
 }
 
-void Config ::ParseBuffer(std::istream * buf) {
+void Config::ParseBuffer(std::istream * buf) {
     std::string section = "";
     int line_num = 0;
     std::string line;
@@ -101,7 +101,7 @@ void Config ::ParseBuffer(std::istream * buf) {
  * @param confName the path of the model file.
  * @return the constructor of Config.
  */
-std::shared_ptr<Config> Config :: NewConfig(std::string conf_name) {
+std::shared_ptr<Config> Config::NewConfig(const std::string& conf_name) {
     std::shared_ptr<Config> c(new Config);
     c->Parse(conf_name);
     return c;
@@ -113,30 +113,30 @@ std::shared_ptr<Config> Config :: NewConfig(std::string conf_name) {
  * @param text the model text.
  * @return the constructor of Config.
  */
-std::shared_ptr<Config> Config :: NewConfigFromText(std::string text) {
+std::shared_ptr<Config> Config::NewConfigFromText(const std::string& text) {
     std::shared_ptr<Config> c(new Config);
     std::stringstream stream(text);
     c->ParseBuffer(&stream);
     return c;
 }
 
-bool Config :: GetBool(std::string key) {
+bool Config::GetBool(const std::string& key) {
     return Get(key).compare("true")==0;
 }
 
-int Config :: GetInt(std::string key) {
+int Config::GetInt(const std::string& key) {
     return atoi(Get(key).c_str());
 }
 
-float Config :: GetFloat(std::string key) {
+float Config::GetFloat(const std::string& key) {
     return float(atof(Get(key).c_str()));
 }
 
-std::string Config :: GetString(std::string key) {
+std::string Config::GetString(const std::string& key) {
     return Get(key);
 }
 
-std::vector<std::string> Config :: GetStrings(std::string key) {
+std::vector<std::string> Config::GetStrings(const std::string& key) {
     std::string v = Get(key);
     if (!v.compare("")) {
         std::vector<std::string> empty;
@@ -145,7 +145,7 @@ std::vector<std::string> Config :: GetStrings(std::string key) {
     return Split(v,std::string(","));
 }
 
-void Config :: Set(std::string key, std::string value) {
+void Config::Set(const std::string& key, const std::string& value) {
     mtx_lock.lock();
     if (key.length() == 0) {
         mtx_lock.unlock();
@@ -155,7 +155,7 @@ void Config :: Set(std::string key, std::string value) {
     std::string section = "";
     std::string option;
 
-    transform(key.begin(), key.end(), key.begin(), ::tolower);
+    transform(key.begin(), key.end(), key.begin(),::tolower);
     std::vector<std::string> keys = Split(key, std::string("::"));
     if (keys.size() >= 2) {
         section = keys[0];
@@ -168,10 +168,10 @@ void Config :: Set(std::string key, std::string value) {
     mtx_lock.unlock();
 }
 
-std::string Config :: Get(std::string key) {
+std::string Config::Get(const std::string& key) {
     std::string section;
     std::string option;
-    transform(key.begin(), key.end(), key.begin(), ::tolower);
+    transform(key.begin(), key.end(), key.begin(),::tolower);
     std::vector<std::string> keys = Split(key, std::string("::"));
     if (keys.size() >= 2) {
         section = keys[0];

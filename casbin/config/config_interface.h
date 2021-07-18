@@ -25,12 +25,12 @@ namespace casbin {
 class ConfigInterface {
     public:
 
-        virtual std::string GetString(std::string key) = 0;
-        virtual std::vector<std::string> GetStrings(std::string key) = 0;
-        virtual bool GetBool(std::string key) = 0;
-        virtual int GetInt(std::string key) = 0;
-        virtual float GetFloat(std::string key) = 0;
-        virtual void Set(std::string key, std::string value) = 0;
+        virtual std::string GetString(const std::string& key) = 0;
+        virtual std::vector<std::string> GetStrings(const std::string& key) = 0;
+        virtual bool GetBool(const std::string& key) = 0;
+        virtual int GetInt(const std::string& key) = 0;
+        virtual float GetFloat(const std::string& key) = 0;
+        virtual void Set(const std::string& key, const std::string& value) = 0;
 
 };
 

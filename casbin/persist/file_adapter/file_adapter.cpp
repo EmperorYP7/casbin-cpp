@@ -15,13 +15,13 @@
 namespace casbin {
 
 // NewAdapter is the constructor for Adapter.
-FileAdapter :: FileAdapter(std::string file_path) {
+FileAdapter::FileAdapter(const std::string& file_path) {
     this->file_path = file_path;
     this->filtered = false;
 }
 
 // LoadPolicy loads all policy rules from the storage.
-void FileAdapter :: LoadPolicy(Model* model) {
+void FileAdapter::LoadPolicy(Model* model) {
     if (this->file_path == "")
         throw CasbinAdapterException("Invalid file path, file path cannot be empty");
 
@@ -29,14 +29,14 @@ void FileAdapter :: LoadPolicy(Model* model) {
 }
 
 // SavePolicy saves all policy rules to the storage.
-void FileAdapter :: SavePolicy(Model* model) {
+void FileAdapter::SavePolicy(Model* model) {
     if (this->file_path == "") {
         throw CasbinAdapterException("Invalid file path, file path cannot be empty");
     }
 
     std::string tmp;
 
-    for (std::unordered_map<std::string, std::shared_ptr<Assertion>> :: iterator it = model->m["p"].assertion_map.begin() ; it != model->m["p"].assertion_map.begin() ; it++){
+    for (std::unordered_map<std::string, std::shared_ptr<Assertion>>::iterator it = model->m["p"].assertion_map.begin() ; it != model->m["p"].assertion_map.begin() ; it++){
         for (int i = 0 ; i < it->second->policy.size() ; i++){
             tmp += it->first + ", ";
             tmp += ArrayToString(it->second->policy[i]);
@@ -44,7 +44,7 @@ void FileAdapter :: SavePolicy(Model* model) {
         }
     }
 
-    for (std::unordered_map <std::string, std::shared_ptr<Assertion>> :: iterator it = model->m["g"].assertion_map.begin() ; it != model->m["g"].assertion_map.begin() ; it++){
+    for (std::unordered_map <std::string, std::shared_ptr<Assertion>>::iterator it = model->m["g"].assertion_map.begin() ; it != model->m["g"].assertion_map.begin() ; it++){
         for (int i = 0 ; i < it->second->policy.size() ; i++){
             tmp += it->first + ", ";
             tmp += ArrayToString(it->second->policy[i]);
@@ -55,7 +55,7 @@ void FileAdapter :: SavePolicy(Model* model) {
     return this->SavePolicyFile(RTrim(tmp, "\n"));
 }
 
-void FileAdapter :: LoadPolicyFile(Model* model, void (*handler)(std::string, Model*)) {
+void FileAdapter::LoadPolicyFile(Model* model, void (*handler)(const std::string&, Model*)) {
     std::ifstream in_file;
     try {
         in_file.open(this->file_path);
@@ -72,7 +72,7 @@ void FileAdapter :: LoadPolicyFile(Model* model, void (*handler)(std::string, Mo
     in_file.close();
 }
 
-void FileAdapter :: SavePolicyFile(std::string text) {
+void FileAdapter::SavePolicyFile(const std::string& text) {
     std::ofstream out_file;
     out_file.open(this->file_path, std::ios::out);
     try {
@@ -87,22 +87,22 @@ void FileAdapter :: SavePolicyFile(std::string text) {
 }
 
 // AddPolicy adds a policy rule to the storage.
-void FileAdapter :: AddPolicy(std::string sec, std::string p_type, std::vector<std::string> rule) {
+void FileAdapter::AddPolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& rule) {
     throw UnsupportedOperationException("not implemented");
 }
 
 // RemovePolicy removes a policy rule from the storage.
-void FileAdapter :: RemovePolicy(std::string sec, std::string p_type, std::vector<std::string> rule) {
+void FileAdapter::RemovePolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& rule) {
     throw UnsupportedOperationException("not implemented");
 }
 
 // RemoveFilteredPolicy removes policy rules that match the filter from the storage.
-void FileAdapter :: RemoveFilteredPolicy(std::string sec, std::string p_type, int field_index, std::vector<std::string> field_values) {
+void FileAdapter::RemoveFilteredPolicy(const std::string& sec, const std::string& p_type, int field_index, const std::vector<std::string>& field_values) {
     throw UnsupportedOperationException("not implemented");
 }
 
 // IsFiltered returns true if the loaded policy has been filtered.
-bool FileAdapter :: IsFiltered() {
+bool FileAdapter::IsFiltered() {
     return this->filtered;
 }
 

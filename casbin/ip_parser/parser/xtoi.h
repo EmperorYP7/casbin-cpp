@@ -8,7 +8,7 @@
 
 namespace casbin {
 
-std::pair<int, int> xtoi(std::string s);
+std::pair<int, int> xtoi(const std::string& s);
 
 } // namespace casbin
 

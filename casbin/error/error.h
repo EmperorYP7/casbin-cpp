@@ -5,12 +5,12 @@
 
 namespace casbin {
 
-class Error{
+class Error {
     public:
         static Error NIL;
         std::string err;
 
-        Error(std::string error_message){
+        Error(const std::string& error_message){
             err = error_message;
         }
 

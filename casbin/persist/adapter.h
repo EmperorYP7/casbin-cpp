@@ -25,7 +25,7 @@
 namespace casbin {
 
 // LoadPolicyLine loads a text line as a policy rule to model.
-void LoadPolicyLine(std::string line, Model* model);
+void LoadPolicyLine(const std::string& line, Model* model);
 
 /**
  * Adapter is the interface for Casbin adapters.
@@ -58,7 +58,7 @@ class Adapter {
          * @param p_type the policy type, "p", "p2", .. or "g", "g2", ..
          * @param rule the rule, like (sub, obj, act).
          */
-        virtual void AddPolicy(std::string sec, std::string p_type, std::vector<std::string> rule) = 0;
+        virtual void AddPolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& rule) = 0;
 
         /**
          * RemovePolicy removes a policy rule from the storage.
@@ -68,7 +68,7 @@ class Adapter {
          * @param p_type the policy type, "p", "p2", .. or "g", "g2", ..
          * @param rule the rule, like (sub, obj, act).
          */
-        virtual void RemovePolicy(std::string sec, std::string p_type, std::vector<std::string> rule) = 0;
+        virtual void RemovePolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& rule) = 0;
 
         /**
          * RemoveFilteredPolicy removes policy rules that match the filter from the storage.
@@ -80,7 +80,7 @@ class Adapter {
          * @param field_values the field values to be matched, value ""
          *                    means not to match this field.
          */
-        virtual void RemoveFilteredPolicy(std::string sec, std::string ptype, int field_index, std::vector<std::string> field_values) = 0;
+        virtual void RemoveFilteredPolicy(const std::string& sec, const std::string& ptype, int field_index, const std::vector<std::string>& field_values) = 0;
 
         virtual bool IsFiltered() = 0;
 };

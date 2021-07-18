@@ -24,11 +24,11 @@ namespace casbin {
 class DefaultWatcherEx: public WatcherEx {
     public:
 
-        void UpdateForAddPolicy(std::vector<std::string> params);
+        void UpdateForAddPolicy(const std::vector<std::string>& params);
 
-        void UpdateForRemovePolicy(std::vector<std::string> params);
+        void UpdateForRemovePolicy(const std::vector<std::string>& params);
 
-        void UpdateForRemoveFilteredPolicy(int field_index, std::vector<std::string> field_values);
+        void UpdateForRemoveFilteredPolicy(int field_index, const std::vector<std::string>& field_values);
 
         void UpdateForSavePolicy(Model* model);
 };

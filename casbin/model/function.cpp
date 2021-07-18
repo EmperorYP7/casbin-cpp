@@ -25,11 +25,11 @@
 
 namespace casbin {
 
-FunctionMap :: FunctionMap(){
+FunctionMap::FunctionMap(){
     scope = NULL;
 }
 
-void FunctionMap :: ProcessFunctions(std::string expression){
+void FunctionMap::ProcessFunctions(const std::string& expression){
     for(auto func: func_list){
         int index = int(expression.find(func+"("));
 
@@ -56,70 +56,70 @@ void FunctionMap :: ProcessFunctions(std::string expression){
     }
 }
 
-int FunctionMap :: GetRLen(){
+int FunctionMap::GetRLen(){
     bool found = FetchIdentifier(scope, "rlen");
     if(found)
         return GetInt(scope);
     return -1;
 }
 
-bool FunctionMap :: Evaluate(std::string expression){
+bool FunctionMap::Evaluate(const std::string& expression){
     ProcessFunctions(expression);
     return Eval(scope, expression);
 }
 
-bool FunctionMap :: GetBooleanResult(){
+bool FunctionMap::GetBooleanResult(){
     return bool(duk_get_boolean(scope, -1));
 }
 
 // AddFunction adds an expression function.
-void FunctionMap :: AddFunction(std::string func_name, Function f, Index nargs) {
+void FunctionMap::AddFunction(const std::string& func_name, Function f, Index nargs) {
     func_list.push_back(func_name);
     PushFunction(scope, f, func_name, nargs);
 }
 
-void FunctionMap :: AddFunctionPropToR(std::string identifier, Function func, Index nargs){
+void FunctionMap::AddFunctionPropToR(const std::string& identifier, Function func, Index nargs){
     PushFunctionPropToObject(scope, "r", func, identifier, nargs);
 }
 
-void FunctionMap :: AddBooleanPropToR(std::string identifier, bool val){
+void FunctionMap::AddBooleanPropToR(const std::string& identifier, bool val){
     PushBooleanPropToObject(scope, "r", val, identifier);
 }
 
-void FunctionMap :: AddTruePropToR(std::string identifier){
+void FunctionMap::AddTruePropToR(const std::string& identifier){
     PushTruePropToObject(scope, "r", identifier);
 }
 
-void FunctionMap :: AddFalsePropToR(std::string identifier){
+void FunctionMap::AddFalsePropToR(const std::string& identifier){
     PushFalsePropToObject(scope, "r", identifier);
 }
 
-void FunctionMap :: AddIntPropToR(std::string identifier, int val){
+void FunctionMap::AddIntPropToR(const std::string& identifier, int val){
     PushIntPropToObject(scope, "r", val, identifier);
 }
 
-void FunctionMap :: AddFloatPropToR(std::string identifier, float val){
+void FunctionMap::AddFloatPropToR(const std::string& identifier, float val){
     PushFloatPropToObject(scope, "r", val, identifier);
 }
 
-void FunctionMap :: AddDoublePropToR(std::string identifier, double val){
+void FunctionMap::AddDoublePropToR(const std::string& identifier, double val){
     PushDoublePropToObject(scope, "r", val, identifier);
 }
 
-void FunctionMap :: AddStringPropToR(std::string identifier, std::string val){
+void FunctionMap::AddStringPropToR(const std::string& identifier, const std::string& val){
     PushStringPropToObject(scope, "r", val, identifier);
 }
 
-void FunctionMap :: AddPointerPropToR(std::string identifier, void* val){
+void FunctionMap::AddPointerPropToR(const std::string& identifier, void* val){
     PushPointerPropToObject(scope, "r", val, identifier);
 }
 
-void FunctionMap :: AddObjectPropToR(std::string identifier){
+void FunctionMap::AddObjectPropToR(const std::string& identifier){
     PushObjectPropToObject(scope, "r", identifier);
 }
 
 // LoadFunctionMap loads an initial function map.
-void FunctionMap :: LoadFunctionMap() {
+void FunctionMap::LoadFunctionMap() {
     AddFunction("keyMatch", KeyMatch, 2);
     AddFunction("keyMatch2", KeyMatch2, 2);
     AddFunction("keyMatch3", KeyMatch3, 2);

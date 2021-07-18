@@ -25,13 +25,13 @@
 
 namespace casbin {
 
-Role* Role :: NewRole(std::string name) {
+Role* Role::NewRole(const std::string& name) {
     Role* role = new Role;
     role->name = name;
     return role;
 }
 
-void Role :: AddRole(Role* role) {
+void Role::AddRole(Role* role) {
     for (int i = 0 ; i < this->roles.size() ; i++) {
         if (this->roles[i]->name == role->name)
             return;
@@ -40,14 +40,14 @@ void Role :: AddRole(Role* role) {
     this->roles.push_back(role);
 }
 
-void Role :: DeleteRole(Role* role) {
+void Role::DeleteRole(Role* role) {
     for (int i = 0; i < roles.size();i++) {
         if (roles[i]->name == role->name)
             roles.erase(roles.begin()+i);
     }
 }
 
-bool Role :: HasRole(std::string name, int hierarchy_level) {
+bool Role::HasRole(const std::string& name, int hierarchy_level) {
     if (this->name == name)
         return true;
 
@@ -62,7 +62,7 @@ bool Role :: HasRole(std::string name, int hierarchy_level) {
     return false;
 }
 
-bool Role :: HasDirectRole(std::string name) {
+bool Role::HasDirectRole(const std::string& name) {
     for(int i = 0 ; i < roles.size() ; i++){
         if (roles[i]->name == name)
             return true;
@@ -71,7 +71,7 @@ bool Role :: HasDirectRole(std::string name) {
     return false;
 }
 
-std::string Role :: ToString() {
+std::string Role::ToString() {
     if(this->roles.size()==0)
         return "";
 
@@ -93,7 +93,7 @@ std::string Role :: ToString() {
     return name + " < " + names;
 }
 
-std::vector<std::string> Role :: GetRoles() {
+std::vector<std::string> Role::GetRoles() {
     std::vector<std::string> names;
     for(int i = 0 ; i < roles.size() ; i++)
         names.push_back(roles[i]->name);
@@ -101,10 +101,10 @@ std::vector<std::string> Role :: GetRoles() {
     return names;
 }
 
-bool DefaultRoleManager :: HasRole(std::string name) {
+bool DefaultRoleManager::HasRole(const std::string& name) {
     bool ok = false;
     if (this->has_pattern){
-        for (std::unordered_map<std::string, Role*> :: iterator it = this->all_roles.begin() ; it != this->all_roles.end() ; it++){
+        for (std::unordered_map<std::string, Role*>::iterator it = this->all_roles.begin() ; it != this->all_roles.end() ; it++){
             if (this->matching_func(name, it->first))
                 ok = true;
         }
@@ -115,22 +115,22 @@ bool DefaultRoleManager :: HasRole(std::string name) {
     return ok;
 }
 
-Role* DefaultRoleManager :: CreateRole(std::string name) {
+Role* DefaultRoleManager::CreateRole(const std::string& name) {
     Role* role;
     bool ok = this->all_roles.find(name) != this->all_roles.end();
     if (!ok) {
-        all_roles[name] = Role :: NewRole(name);
+        all_roles[name] = Role::NewRole(name);
         role = all_roles[name];
     } else
         role = all_roles[name];
 
     if (this->has_pattern) {
-        for (std::unordered_map<std::string, Role*> :: iterator it = this->all_roles.begin() ; it != this->all_roles.end() ; it++){
+        for (std::unordered_map<std::string, Role*>::iterator it = this->all_roles.begin() ; it != this->all_roles.end() ; it++){
             if (this->matching_func(name, it->first) && name!=it->first) {
                 Role* role1;
                 bool ok1 = this->all_roles.find(it->first) != this->all_roles.end();
                 if (!ok1) {
-                    all_roles[it->first] = Role :: NewRole(it->first);
+                    all_roles[it->first] = Role::NewRole(it->first);
                     role1 = all_roles[it->first];
                 } else
                     role1 = all_roles[it->first];
@@ -148,7 +148,7 @@ Role* DefaultRoleManager :: CreateRole(std::string name) {
  *
  * @param max_hierarchy_level the maximized allowed RBAC hierarchy level.
  */
-DefaultRoleManager :: DefaultRoleManager(int max_hierarchy_level) {
+DefaultRoleManager::DefaultRoleManager(int max_hierarchy_level) {
     this->max_hierarchy_level = max_hierarchy_level;
     this->has_pattern = false;
 }
@@ -156,7 +156,7 @@ DefaultRoleManager :: DefaultRoleManager(int max_hierarchy_level) {
 // e.BuildRoleLinks must be called after AddMatchingFunc().
 //
 // example: e.GetRoleManager().(*defaultrolemanager.RoleManager).AddMatchingFunc('matcher', util.KeyMatch)
-void DefaultRoleManager :: AddMatchingFunc(MatchingFunc fn) {
+void DefaultRoleManager::AddMatchingFunc(MatchingFunc fn) {
     this->has_pattern = true;
     this->matching_func = fn;
 }
@@ -164,14 +164,14 @@ void DefaultRoleManager :: AddMatchingFunc(MatchingFunc fn) {
 /**
  * clear clears all stored data and resets the role manager to the initial state.
  */
-void DefaultRoleManager :: Clear() {
+void DefaultRoleManager::Clear() {
     this->all_roles.clear();
 }
 
 // AddLink adds the inheritance link between role: name1 and role: name2.
 // aka role: name1 inherits role: name2.
 // domain is a prefix to the roles.
-void DefaultRoleManager :: AddLink(std::string name1, std::string name2, std::vector<std::string> domain) {
+void DefaultRoleManager::AddLink(std::string name1, std::string name2, const std::vector<std::string>& domain) {
     if (domain.size() == 1) {
         name1 = domain[0] + "::" + name1;
         name2 = domain[0] + "::" + name2;
@@ -188,7 +188,7 @@ void DefaultRoleManager :: AddLink(std::string name1, std::string name2, std::ve
  * aka role: name1 does not inherit role: name2 any more.
  * domain is a prefix to the roles.
  */
-void DefaultRoleManager :: DeleteLink(std::string name1, std::string name2, std::vector<std::string> domain) {
+void DefaultRoleManager::DeleteLink(std::string name1,std::string name2, const std::vector<std::string>& domain) {
     unsigned int domain_length = int(domain.size());
     if (domain_length == 1) {
         name1 = domain[0] + "::" + name1;
@@ -208,7 +208,7 @@ void DefaultRoleManager :: DeleteLink(std::string name1, std::string name2, std:
  * hasLink determines whether role: name1 inherits role: name2.
  * domain is a prefix to the roles.
  */
-bool DefaultRoleManager :: HasLink(std::string name1, std::string name2, std::vector<std::string> domain) {
+bool DefaultRoleManager::HasLink(std::string name1, std::string name2, const std::vector<std::string>& domain) {
     unsigned int domain_length = int(domain.size());
     if (domain_length == 1) {
         name1 = domain[0] + "::" + name1;
@@ -229,7 +229,7 @@ bool DefaultRoleManager :: HasLink(std::string name1, std::string name2, std::ve
  * getRoles gets the roles that a subject inherits.
  * domain is a prefix to the roles.
  */
-std::vector<std::string> DefaultRoleManager :: GetRoles(std::string name, std::vector<std::string> domain) {
+std::vector<std::string> DefaultRoleManager::GetRoles(std::string name, const std::vector<std::string>& domain) {
     unsigned int domain_length = int(domain.size());
     if (domain_length == 1)
         name = domain[0] + "::" + name;
@@ -250,7 +250,7 @@ std::vector<std::string> DefaultRoleManager :: GetRoles(std::string name, std::v
     return roles;
 }
 
-std::vector<std::string> DefaultRoleManager :: GetUsers(std::string name, std::vector<std::string> domain) {
+std::vector<std::string> DefaultRoleManager::GetUsers(std::string name, const std::vector<std::string>& domain) {
     if (domain.size() == 1)
         name = domain[0] + "::" + name;
     else if (domain.size() > 1)
@@ -277,7 +277,7 @@ std::vector<std::string> DefaultRoleManager :: GetUsers(std::string name, std::v
 /**
  * printRoles prints all the roles to log.
  */
-void DefaultRoleManager :: PrintRoles() {
+void DefaultRoleManager::PrintRoles() {
     // DefaultLogger df_logger;
     // df_logger.EnableLog(true);
 
@@ -285,7 +285,7 @@ void DefaultRoleManager :: PrintRoles() {
     // LogUtil::SetLogger(*logger);
 
     std::string text = this->all_roles.begin()->second->ToString();
-    std::unordered_map<std::string, Role*> :: iterator it = this->all_roles.begin();
+    std::unordered_map<std::string, Role*>::iterator it = this->all_roles.begin();
     it++;
     for ( ; it != this->all_roles.end() ; it++)
         text += ", " + it->second->ToString();

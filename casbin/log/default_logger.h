@@ -24,7 +24,7 @@ class DefaultLogger : public Logger {
         }
 
         template <typename... Object>
-        void Print(std::string format, Object... objects){
+        void Print(const std::string& format, Object... objects){
             if (m_enable){
                 Printf(format, objects...);
             }

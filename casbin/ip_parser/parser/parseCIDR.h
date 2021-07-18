@@ -15,7 +15,7 @@
 
 namespace casbin {
 
-CIDR parseCIDR(std::string s);
+CIDR parseCIDR(const std::string& s);
 
 } // namespace casbin
 

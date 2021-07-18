@@ -67,7 +67,7 @@ void Model::LoadSection(Model* model, std::shared_ptr<ConfigInterface> cfg, cons
     }
 }
 
-std::string Model ::GetKeySuffix(int i) {
+std::string Model::GetKeySuffix(int i) {
     if (i == 1)
         return "";
     return std::to_string(i);

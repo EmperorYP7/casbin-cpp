@@ -8,20 +8,20 @@
 
 namespace casbin {
 
-std::pair<int, int> xtoi(std::string s) {
+std::pair<int, int> xtoi(const std::string& s) {
     int n = 0;
     int i = 0;
     std::pair<int, int> p;
-    for(i = 0 ; i < s.length() ; i++) {
-        if('0' <= s[i] && s[i] <= '9') {
+    for(const char character : s) {
+        if('0' <= character && character <= '9') {
             n *= 16;
-            n += int(s[i] - '0');
-        } else if('a' <= s[i] && s[i] <= 'f') {
+            n += static_cast<int>(character - '0');
+        } else if('a' <= character && character <= 'f') {
             n *= 16;
-            n += int(s[i]-'a') + 10;
-        } else if('A' <= s[i] && s[i] <= 'F') {
+            n += static_cast<int>(character - 'a') + 10;
+        } else if('A' <= character && character <= 'F') {
             n *= 16;
-            n += int(s[i]-'A') + 10;
+            n += static_cast<int>(character - 'A') + 10;
         } else {
             break;
         }

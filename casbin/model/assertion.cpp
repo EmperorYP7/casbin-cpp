@@ -27,7 +27,7 @@
 
 namespace casbin {
 
-void Assertion :: BuildIncrementalRoleLinks(std::shared_ptr<RoleManager> rm, policy_op op, std::vector<std::vector<std::string>> rules) {
+void Assertion::BuildIncrementalRoleLinks(std::shared_ptr<RoleManager> rm, policy_op op, std::vector<std::vector<std::string>> rules) {
     this->rm = rm;
     int char_count = int(count(this->value.begin(), this->value.end(), '_'));
 
@@ -45,16 +45,16 @@ void Assertion :: BuildIncrementalRoleLinks(std::shared_ptr<RoleManager> rm, pol
         std::vector<std::string> domain(rule.begin() + 2, rule.end());
 
         switch(op) {
-            case policy_op :: policy_add:
+            case policy_op::policy_add:
                 this->rm->AddLink(rule[0], rule[1], domain);
                 break;
-            case policy_op :: policy_remove:
+            case policy_op::policy_remove:
                 this->rm->DeleteLink(rule[0], rule[1], domain);
         }
     }
 }
 
-void Assertion :: BuildRoleLinks(std::shared_ptr<RoleManager> rm) {
+void Assertion::BuildRoleLinks(std::shared_ptr<RoleManager> rm) {
     this->rm = rm;
     int char_count = int(count(this->value.begin(), this->value.end(), '_'));
 
@@ -77,9 +77,9 @@ void Assertion :: BuildRoleLinks(std::shared_ptr<RoleManager> rm) {
     // df_logger.EnableLog(true);
 
     // Logger *logger = &df_logger;
-    // LogUtil :: SetLogger(*logger);
+    // LogUtil::SetLogger(*logger);
 
-    // LogUtil :: LogPrint("Role links for: " + Key);
+    // LogUtil::LogPrint("Role links for: " + Key);
 
     // this->rm->PrintRoles();
 }

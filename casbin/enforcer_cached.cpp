@@ -34,7 +34,7 @@ namespace casbin {
 /**
  * Enforcer is the default constructor.
  */
-CachedEnforcer ::CachedEnforcer() {
+CachedEnforcer::CachedEnforcer() {
     this->enableCache = true;
 }
 
@@ -44,7 +44,7 @@ CachedEnforcer ::CachedEnforcer() {
  * @param model_path the path of the model file.
  * @param policyFile the path of the policy file.
  */
-CachedEnforcer ::CachedEnforcer(const std::string& model_path, const std::string& policy_file)
+CachedEnforcer::CachedEnforcer(const std::string& model_path, const std::string& policy_file)
     : Enforcer(model_path, policy_file) {
     this->enableCache = true;
 }
@@ -55,7 +55,7 @@ CachedEnforcer ::CachedEnforcer(const std::string& model_path, const std::string
  * @param model_path the path of the model file.
  * @param adapter the adapter.
  */
-CachedEnforcer ::CachedEnforcer(const std::string& model_path, std::shared_ptr<Adapter> adapter)
+CachedEnforcer::CachedEnforcer(const std::string& model_path, std::shared_ptr<Adapter> adapter)
     : Enforcer(model_path, adapter) {
     this->enableCache = true;
 }
@@ -66,7 +66,7 @@ CachedEnforcer ::CachedEnforcer(const std::string& model_path, std::shared_ptr<A
  * @param m the model.
  * @param adapter the adapter.
  */
-CachedEnforcer ::CachedEnforcer(std::shared_ptr<Model> m, std::shared_ptr<Adapter> adapter)
+CachedEnforcer::CachedEnforcer(std::shared_ptr<Model> m, std::shared_ptr<Adapter> adapter)
     : Enforcer(m, adapter) {
     this->enableCache = true;
 }
@@ -76,7 +76,7 @@ CachedEnforcer ::CachedEnforcer(std::shared_ptr<Model> m, std::shared_ptr<Adapte
  *
  * @param m the model.
  */
-CachedEnforcer ::CachedEnforcer(std::shared_ptr<Model> m)
+CachedEnforcer::CachedEnforcer(std::shared_ptr<Model> m)
     : Enforcer(m) {
     this->enableCache = true;
 }
@@ -86,7 +86,7 @@ CachedEnforcer ::CachedEnforcer(std::shared_ptr<Model> m)
  *
  * @param model_path the path of the model file.
  */
-CachedEnforcer ::CachedEnforcer(const std::string& model_path)
+CachedEnforcer::CachedEnforcer(const std::string& model_path)
     : Enforcer(model_path) {
     this->enableCache = true;
 }
@@ -98,7 +98,7 @@ CachedEnforcer ::CachedEnforcer(const std::string& model_path)
  * @param policyFile the path of the policy file.
  * @param enableLog whether to enable Casbin's log.
  */
-CachedEnforcer ::CachedEnforcer(const std::string& model_path, const std::string& policy_file, bool enable_log)
+CachedEnforcer::CachedEnforcer(const std::string& model_path, const std::string& policy_file, bool enable_log)
     : Enforcer(model_path, policy_file, enable_log) {
     this->enableCache = true;
 }
@@ -144,7 +144,7 @@ void CachedEnforcer::InvalidateCache() {
 
 // Enforce decides whether a "subject" can access a "object" with the operation
 // "action", input parameters are usually: (sub, obj, act).
-bool CachedEnforcer ::Enforce(Scope scope) {
+bool CachedEnforcer::Enforce(Scope scope) {
     return EnforceWithMatcher("", scope);
 }
 
@@ -163,7 +163,7 @@ bool CachedEnforcer::Enforce(const DataMap& params) {
 // EnforceWithMatcher use a custom matcher to decides whether a "subject" can
 // access a "object" with the operation "action", input parameters are usually:
 // (matcher, sub, obj, act), use model matcher by default when matcher is "".
-bool CachedEnforcer ::EnforceWithMatcher(const std::string& matcher, Scope scope) {
+bool CachedEnforcer::EnforceWithMatcher(const std::string& matcher, Scope scope) {
     return Enforcer::EnforceWithMatcher(matcher, scope);
 }
 

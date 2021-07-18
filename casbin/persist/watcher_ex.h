@@ -27,15 +27,15 @@ class WatcherEx: public Watcher {
     public:
         // UpdateForAddPolicy calls the update callback of other instances to synchronize their policy.
         // It is called after Enforcer.AddPolicy()
-        virtual void UpdateForAddPolicy(std::vector<std::string> params) = 0;
+        virtual void UpdateForAddPolicy(const std::vector<std::string>& params) = 0;
 
         // UPdateForRemovePolicy calls the update callback of other instances to synchronize their policy.
         // It is called after Enforcer.RemovePolicy()
-        virtual void UpdateForRemovePolicy(std::vector<std::string> params) = 0;
+        virtual void UpdateForRemovePolicy(const std::vector<std::string>& params) = 0;
 
         // UpdateForRemoveFilteredPolicy calls the update callback of other instances to synchronize their policy.
         // It is called after Enforcer.RemoveFilteredNamedGroupingPolicy()
-        virtual void UpdateForRemoveFilteredPolicy(int field_index, std::vector<std::string> field_values) = 0;
+        virtual void UpdateForRemoveFilteredPolicy(int field_index, const std::vector<std::string>& field_values) = 0;
 
         // UpdateForSavePolicy calls the update callback of other instances to synchronize their policy.
         // It is called after Enforcer.RemoveFilteredNamedGroupingPolicy()

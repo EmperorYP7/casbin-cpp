@@ -26,10 +26,10 @@ class BatchAdapter: virtual public Adapter {
 
         // AddPolicies adds policy rules to the storage.
         // This is part of the Auto-Save feature.
-        virtual void AddPolicies(std::string sec, std::string p_type, std::vector<std::vector<std::string>> rules) = 0;
+        virtual void AddPolicies(const std::string& sec, const std::string& p_type, const std::vector<std::vector<std::string>>& rules) = 0;
         // RemovePolicies removes policy rules from the storage.
         // This is part of the Auto-Save feature.
-        virtual void RemovePolicies(std::string sec, std::string p_type, std::vector<std::vector<std::string>> rules) = 0;
+        virtual void RemovePolicies(const std::string& sec, const std::string& p_type, const std::vector<std::vector<std::string>>& rules) = 0;
 };
 
 };  // namespace casbin
