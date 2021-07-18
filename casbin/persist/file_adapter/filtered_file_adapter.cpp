@@ -13,7 +13,7 @@
 
 namespace casbin {
 
-bool FilteredFileAdapter::filterLine(std::string line, Filter* filter) {
+bool FilteredFileAdapter::filterLine(const std::string& line, Filter* filter) {
     if (filter == NULL)
         return false;
 
@@ -31,7 +31,7 @@ bool FilteredFileAdapter::filterLine(std::string line, Filter* filter) {
     return filterWords(p, filter_slice);
 }
 
-bool FilteredFileAdapter::filterWords(std::vector<std::string> line, std::vector<std::string> filter) {
+bool FilteredFileAdapter::filterWords(std::vector<std::string>& line, std::vector<std::string>& filter) {
     if (line.size() < filter.size()+1)
         return true;
 
@@ -46,7 +46,7 @@ bool FilteredFileAdapter::filterWords(std::vector<std::string> line, std::vector
     return skip_line;
 }
 
-void FilteredFileAdapter::loadFilteredPolicyFile(Model* model, Filter* filter, void (*handler)(std::string, Model*)) {
+void FilteredFileAdapter::loadFilteredPolicyFile(Model* model, Filter* filter, void (*handler)(const std::string&, Model*)) {
     std::ifstream out_file;
     try {
         out_file.open(this->file_path);
@@ -68,7 +68,7 @@ void FilteredFileAdapter::loadFilteredPolicyFile(Model* model, Filter* filter, v
 }
 
 // NewFilteredAdapter is the constructor for FilteredAdapter.
-FilteredFileAdapter::FilteredFileAdapter(std::string file_path): FileAdapter(file_path) {
+FilteredFileAdapter::FilteredFileAdapter(const std::string& file_path): FileAdapter(file_path) {
     this->filtered = true;
 }
 

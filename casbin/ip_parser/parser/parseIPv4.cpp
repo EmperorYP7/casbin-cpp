@@ -8,7 +8,7 @@
 
 namespace casbin {
 
-IP parseIPv4(const std::string& s) {
+IP parseIPv4(std::string s) {
     std::vector <byte> pb(IP::IPv4len, 0);
     IP ipv4;
     for(int i = 0; i < IP::IPv4len ; i++) {

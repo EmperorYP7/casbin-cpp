@@ -9,11 +9,11 @@ namespace casbin {
 class FilteredFileAdapter : public FileAdapter, public FilteredAdapter {
     private:
 
-        static bool filterLine(std::string line, Filter* filter);
+        static bool filterLine(const std::string& line, Filter* filter);
 
-        static bool filterWords(std::vector<std::string> line, std::vector<std::string> filter);
+        static bool filterWords(std::vector<std::string>& line, std::vector<std::string>& filter);
 
-        void loadFilteredPolicyFile(Model* model, Filter* filter, void (*handler)(std::string, Model*));
+        void loadFilteredPolicyFile(Model* model, Filter* filter, void (*handler)(const std::string&, Model*));
 
     public:
 
