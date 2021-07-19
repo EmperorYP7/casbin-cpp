@@ -89,7 +89,7 @@ bool Model::AddDef(const std::string& sec, const std::string& key, const std::st
     if (sec == "r" || sec == "p") {
         ast->tokens = Split(ast->value, ",");
         for (auto& token : ast->tokens)
-            token = key + "_" + Trim(token);
+            token = key + "_" + std::string(Trim(token));
     }
     else
         ast->value = RemoveComments(ast->value);

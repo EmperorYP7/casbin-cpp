@@ -24,10 +24,10 @@
 
 namespace casbin {
 
-bool EndsWith(const std::string& base, const std::string& suffix){
-    int base_len = int(base.length());
-    int suffix_len = int(suffix.length());
-    return base.substr(base_len-suffix_len, suffix_len).compare(suffix) == 0;
+bool EndsWith(const std::string_view base, const std::string_view suffix){
+    size_t base_len = base.length();
+    size_t suffix_len = suffix.length();
+    return base.substr(base_len - suffix_len, suffix_len).compare(suffix) == 0;
 }
 
 } // namespace casbin

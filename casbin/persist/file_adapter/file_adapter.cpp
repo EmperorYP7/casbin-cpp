@@ -52,7 +52,7 @@ void FileAdapter::SavePolicy(Model* model) {
         }
     }
 
-    return this->SavePolicyFile(RTrim(tmp, "\n"));
+    return this->SavePolicyFile(std::string(RTrim(tmp, "\n")));
 }
 
 void FileAdapter::LoadPolicyFile(Model* model, void (*handler)(const std::string&, Model*)) {
@@ -72,7 +72,7 @@ void FileAdapter::LoadPolicyFile(Model* model, void (*handler)(const std::string
     in_file.close();
 }
 
-void FileAdapter::SavePolicyFile(const std::string& text) {
+void FileAdapter::SavePolicyFile(std::string_view text) {
     std::ofstream out_file;
     out_file.open(this->file_path, std::ios::out);
     try {

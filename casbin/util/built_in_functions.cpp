@@ -77,8 +77,8 @@ bool KeyMatch2(const std::string& key1, const std::string& key2) {
             break;
         }
         if(key1_arr[i] != key2_arr[i]){
-            int index1 = int(key2_arr[i].find("*"));
-            int index2 = int(key2_arr[i].find(":"));
+            size_t index1 = key2_arr[i].find("*");
+            size_t index2 = key2_arr[i].find(":");
             if(index1 != std::string::npos){
                 if(index1==0){
                     res = true;
@@ -99,7 +99,8 @@ bool KeyMatch2(const std::string& key1, const std::string& key2) {
             }
             res = false;
             break;
-        }else
+        }
+        else
             continue;
     }
 

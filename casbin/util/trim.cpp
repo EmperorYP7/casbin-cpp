@@ -24,17 +24,17 @@
 
 namespace casbin {
 
-std::string& LTrim(std::string& str, const std::string& chars) {
-    str.erase(0, str.find_first_not_of(chars));
+std::string_view LTrim(std::string_view str, const std::string& chars) {
+    str = str.substr(0, str.find_first_not_of(chars));
     return str;
 }
  
-std::string& RTrim(std::string& str, const std::string& chars) {
-    str.erase(str.find_last_not_of(chars) + 1);
+std::string_view RTrim(std::string_view str, const std::string& chars) {
+    str = str.substr(str.find_last_not_of(chars) + 1);
     return str;
 }
  
-std::string Trim(std::string& str, const std::string& chars) {
+std::string_view Trim(std::string_view str, const std::string& chars) {
     return LTrim(RTrim(str, chars), chars);
 }
 

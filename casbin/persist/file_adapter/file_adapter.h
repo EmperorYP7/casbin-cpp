@@ -21,7 +21,7 @@ class FileAdapter : virtual public Adapter {
 
         void LoadPolicyFile(Model* model, void (*handler)(const std::string&, Model*));
 
-        void SavePolicyFile(const std::string& text);
+        void SavePolicyFile(std::string_view text);
 
         // AddPolicy adds a policy rule to the storage.
         void AddPolicy(const std::string& sec, const std::string& p_type, const std::vector<std::string>& rule);

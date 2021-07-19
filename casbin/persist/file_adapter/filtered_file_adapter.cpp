@@ -22,10 +22,10 @@ bool FilteredFileAdapter::filterLine(const std::string& line, Filter* filter) {
         return true;
 
     std::vector<std::string> filter_slice;
-    std::string str = Trim(p[0]);
-    if (str=="p")
+    std::string_view str = Trim(p[0]);
+    if (str == "p")
         filter_slice = filter->P;
-    else if (str=="g")
+    else if (str == "g")
         filter_slice = filter->G;
 
     return filterWords(p, filter_slice);

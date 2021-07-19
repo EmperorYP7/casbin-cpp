@@ -62,19 +62,19 @@ class Config : public ConfigInterface {
          */
         static std::shared_ptr<Config> NewConfigFromText(const std::string& text);
 
-        bool GetBool(const std::string& key);
+        bool GetBool(std::string_view key);
 
-        int GetInt(const std::string& key);
+        int GetInt(std::string_view key);
 
-        float GetFloat(const std::string& key);
+        float GetFloat(std::string_view key);
 
-        std::string GetString(const std::string& key);
+        std::string GetString(std::string_view key);
 
-        std::vector<std::string> GetStrings(const std::string& key);
+        std::vector<std::string> GetStrings(std::string_view key);
 
-        void Set(const std::string& key, const std::string& value);
+        void Set(const std::string_view key, const std::string& value);
 
-        std::string Get(const std::string& key);
+        std::string Get(std::string_view key);
 };
 
 } // namespace casbin

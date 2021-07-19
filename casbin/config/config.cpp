@@ -88,8 +88,8 @@ void Config::ParseBuffer(std::istream * buf) {
                 sprintf(error, "parse the content error : line %d , %s = ? ", line_num, option_val[0].c_str());
                 throw IllegalArgumentException(std::string(error));
             }
-            std::string option = Trim(option_val[0]);
-            std::string value = Trim(option_val[1]);
+            std::string option = std::string(Trim(option_val[0]));
+            std::string value = std::string(Trim(option_val[1]));
             AddConfig(section, option, value);
         }
     }
@@ -102,7 +102,7 @@ void Config::ParseBuffer(std::istream * buf) {
  * @return the constructor of Config.
  */
 std::shared_ptr<Config> Config::NewConfig(const std::string& conf_name) {
-    std::shared_ptr<Config> c(new Config);
+    std::shared_ptr<Config> c = std::make_shared<Config>();
     c->Parse(conf_name);
     return c;
 }
@@ -114,48 +114,46 @@ std::shared_ptr<Config> Config::NewConfig(const std::string& conf_name) {
  * @return the constructor of Config.
  */
 std::shared_ptr<Config> Config::NewConfigFromText(const std::string& text) {
-    std::shared_ptr<Config> c(new Config);
+    std::shared_ptr<Config> c = std::make_shared<Config>();
     std::stringstream stream(text);
     c->ParseBuffer(&stream);
     return c;
 }
 
-bool Config::GetBool(const std::string& key) {
+bool Config::GetBool(std::string_view key) {
     return Get(key).compare("true")==0;
 }
 
-int Config::GetInt(const std::string& key) {
+int Config::GetInt(std::string_view key) {
     return atoi(Get(key).c_str());
 }
 
-float Config::GetFloat(const std::string& key) {
-    return float(atof(Get(key).c_str()));
+float Config::GetFloat(std::string_view key) {
+    return static_cast<float>(atof(Get(key).c_str()));
 }
 
-std::string Config::GetString(const std::string& key) {
+std::string Config::GetString(std::string_view key) {
     return Get(key);
 }
 
-std::vector<std::string> Config::GetStrings(const std::string& key) {
+std::vector<std::string> Config::GetStrings(std::string_view key) {
     std::string v = Get(key);
     if (!v.compare("")) {
-        std::vector<std::string> empty;
-        return empty;
+        return {};
     }
-    return Split(v,std::string(","));
+    return Split(v, std::string(","));
 }
 
-void Config::Set(const std::string& key, const std::string& value) {
+void Config::Set(std::string_view key, const std::string& value) {
     mtx_lock.lock();
     if (key.length() == 0) {
         mtx_lock.unlock();
         throw IllegalArgumentException("key is empty");
     }
 
-    std::string section = "";
+    std::string section;
     std::string option;
 
-    transform(key.begin(), key.end(), key.begin(),::tolower);
     std::vector<std::string> keys = Split(key, std::string("::"));
     if (keys.size() >= 2) {
         section = keys[0];
@@ -168,10 +166,9 @@ void Config::Set(const std::string& key, const std::string& value) {
     mtx_lock.unlock();
 }
 
-std::string Config::Get(const std::string& key) {
+std::string Config::Get(std::string_view key) {
     std::string section;
     std::string option;
-    transform(key.begin(), key.end(), key.begin(),::tolower);
     std::vector<std::string> keys = Split(key, std::string("::"));
     if (keys.size() >= 2) {
         section = keys[0];
@@ -180,7 +177,7 @@ std::string Config::Get(const std::string& key) {
         section = DEFAULT_SECTION;
         option = keys[0];
     }
-    bool ok = data.find(section)!=data.end() && data[section].find(option) != data[section].end();
+    bool ok = data.find(section) != data.end() && data[section].find(option) != data[section].end();
     if (ok)
         return data[section][option];
     return "";

@@ -44,12 +44,12 @@ void FunctionMap::ProcessFunctions(const std::string& expression){
             for(int i=0;i<params.size();i++){
                 int quote_index = int(params[i].find("\""));
                 if (quote_index == std::string::npos)
-                    Get(this->scope, Trim(params[i]));
+                    Get(this->scope, std::string(Trim(params[i])));
                 else{
                     params[i] = params[i].replace(quote_index, 1, "'");
                     int second_quote_index = int(params[i].find("\"", quote_index+1));
                     params[i] = params[i].replace(second_quote_index, 1, "'");
-                    Get(this->scope, Trim(params[i]));
+                    Get(this->scope, std::string(Trim(params[i])));
                 }
             }
         }

@@ -28,21 +28,24 @@
 
 namespace casbin {
 
-std::vector<std::string> Split(std::string str, std::string del, int limit){
+std::vector<std::string> Split(std::string_view str, const std::string& del, int limit){
     std::vector<std::string> tokens;
 
-    if(limit<=0)
+    if(limit <= 0)
         limit = LARGE;
+
+    tokens.reserve((limit == LARGE) ? 10000 : limit);
 
     for (int i = 1; i < limit ; i++) {
         size_t pos = str.find(del);
-        if (pos != std::string::npos) {
-            tokens.push_back(str.substr(0, pos));
+        if (pos != std::string_view::npos) {
+            tokens.emplace_back(str.substr(0, pos));
             str = str.substr(pos + del.length());
-        } else
+        }
+        else
             break;
     }
-    tokens.push_back(str);
+    tokens.emplace_back(str);
 
     return tokens;
 }

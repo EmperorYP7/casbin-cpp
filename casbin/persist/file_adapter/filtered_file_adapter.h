@@ -18,7 +18,7 @@ class FilteredFileAdapter : public FileAdapter, public FilteredAdapter {
     public:
 
         // NewFilteredAdapter is the constructor for FilteredAdapter.
-        FilteredFileAdapter(std::string file_path);
+        FilteredFileAdapter(const std::string& file_path);
 
         // LoadPolicy loads all policy rules from the storage.
         void LoadPolicy(Model* model);

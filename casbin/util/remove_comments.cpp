@@ -25,12 +25,11 @@
 namespace casbin {
 
 // RemoveComments removes the comments starting with # in the text.
-std::string RemoveComments(std::string s) {
+std::string RemoveComments(const std::string& s) {
     size_t pos = s.find("#");
-    if (pos == std::string::npos)
+    if (pos == std::string_view::npos)
         return s;
-    std::string fin_str = s.substr(0, pos);
-    return Trim(fin_str);
+    return std::string(Trim(s.substr(0, pos)));
 }
 
 } // namespace casbin
